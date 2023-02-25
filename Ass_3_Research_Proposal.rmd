@@ -1,4 +1,6 @@
 ---
+html: "file:///Users/joaquinperezguerra/Desktop/GitHub/Statistics_2_Course_2022/Ass_3_Research_Proposal.html"
+
 title: "Estadística para el Análisis Sociológico 2" 
 output: html_document
 author: "Joaquín Pérez Guerra (2018 0335)"
