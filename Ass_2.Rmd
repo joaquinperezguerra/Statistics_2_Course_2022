@@ -1,0 +1,632 @@
+---
+title:  "Estadística para el Análisis Sociológico 2" 
+output: html_document
+date: '2022-06-26'
+author: "Joaquín Pérez Guerra (2018 0335)"
+subtitle: "Práctica Calificada 3"
+---
+<style>
+body {text-align: justify}
+</style>
+
+```{r Cargar librerias, warning=FALSE, include=FALSE}
+library(rio)
+library(tidyverse)
+library(lmtest)
+library(sandwich)
+library(stargazer)
+library(nortest)
+library(jtools)
+library(kableExtra)
+library(doBy)
+library(ggplot2)
+
+HappinessBase <- import("Felicidad2016.xlsx")
+
+#Renombramos las variables de interés
+
+Happiness <- HappinessBase %>% select("Country Name", "Code", "Year", "V1", "V2", "V10", "V22", "V26")
+Happiness <- rename(Happiness, Felicidad = V1, PBI_PC = V2, PorcentajeDesempleo = V10, PorcentajeGastoSalud = V22, PorcentajeGastoEducacion = V26) 
+
+Happiness$PorcentajeGastoSalud <- as.numeric(Happiness$PorcentajeGastoSalud)
+Happiness$PorcentajeGastoEducacion <- as.numeric(Happiness$PorcentajeGastoEducacion)
+Happiness$PorcentajeDesempleo <- as.numeric(Happiness$PorcentajeDesempleo)
+
+Happiness$PorcentajeGastoEducacion2 <- Happiness$PorcentajeGastoEducacion^2
+Happiness$PBI_PC_log <- log(Happiness$PBI_PC)
+Happiness$PorcentajeDesempleo_log <- log(Happiness$PorcentajeDesempleo)
+```
+
+##### **1) Introducción y presentación del problema**
+
+La felicidad es un tema sumamente complejo que puede ser analizado desde diversas aristias, muchas veces reducidas a debates sobre la personalidad, trayectorias de vida o demás condiciones psicológicas individuales. No obstante, consideramos que la felicidad como fenómeno social, en este caso nacional, se puede explicar a propósito de variables de caracter 'sociológicas'. En ese sentido, el objetivo del reporte es *analizar el efecto del gasto en servicios sociales en la varianza del Nivel de felicidad promedio de los países*. Respecto a ello, planteamos dos VI sobre el gasto en servicios sociales: Porcentaje del gasto público en Salud y Porcentaje del gasto público en Educación. Bien, como queremos ver cómo estas VI efectan la varianza del Nivel de felicidad promedio, también vamos a considerar dos VC sobre el desempeño ecónomico de los países: PBI per capita y Porcentaje de Desempleo. Estas útimas variables han sido claves para determinar el nivel de bienestar de los países, sin embargo, el presente trabajo argumenta que los servicios sociales son variables complementarias e igualmente determinantes. La explicación en analizar el efecto del gasto en servicios sociales en la varianza del Nivel de felicidad promedio de los países se encuentra en que de los 10 países que lideran el ranking de los páises más felices del mundo, *World Happiness report 2022*, 5 son países que tienen un Estado de Bienestar: Finlandia, Dinamarca, Islandia, Suecia, Noruega (países nórdicos). El Estado de Bienestar se caracteriza por complementar un economía de libre mercado con medidas de intervención estatal en los servicios sociales: Salud, Educación, seguridad social, vivienda, etc. Así, el presente trabajo pretende analizar qué tan determinantes pueden ser el gasto en políticas de bienestar (Salud y Educación) en la varianza del Nivel de felicidad promedio de los países.
+
+##### **2) Justificación de variables**
+
+**Análisis univariado**
+
+**Variable dependiente** 
+
+##### * **Nivel de felicidad**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+Felicidad.Desc <- summaryBy(Felicidad ~ Year, data = Happiness,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = round(median(x, na.rm = T), digits = 2),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = round(min(x, na.rm = T), digits = 2),
+Maximo = round(max(x, na.rm = T), digits = 2),
+PrimerCuartil = round(quantile(x, probs = c(.25), na.rm = T), digits = 2),
+TercerCuartil = round(quantile(x, probs = c(.75), na.rm = T), digits = 2))})
+
+Felicidad.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: Our World on Data - Oxford University", "El Nivel de felicidad tiene una escala de 0-10"),
+  title_format = "bold") 
+
+Happiness %>% 
+  ggplot(aes(x=Felicidad))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 25)+
+  theme_bw() +
+  labs(x="Nivel de felicidad (0-10)", y="Número de casos", 
+       title="Distribución de casos de la VD Nivel de felicidad",
+       caption = "Fuente: Our World on Data - Oxford University")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+lillie.test(Happiness$Felicidad)
+
+```
+</div>
+
+La variable dependiente, *Nivel de felicidad*, es una variable de tipo numérica construida por el 'World Happiness Report'. Esta variable tiene una escala del 0 (mínimo de felicidad) al 10 (máximo de felicidad). La variable presenta una media de 5.53 puntos, una mediana de 5.47 puntos y una desviación estándar de 1.09 puntos. Asimismo, tiene un valor mínimo de 2.69 puntos (Afganistán) y un valor máximo de 7.86 puntos (Finlandia), y tiene una rango intercuartílico de 1.5 puntos. La variable presenta, en el histograma, una distribución normal, pues no pareciera que la distribución estuviera sesgada hacia una cola. Esto lo podemos comprobar con el test de normalidad 'Kolmogorov-Smirnov', p > 0.05.
+
+**Variables independientes: Gasto en servicios sociales **
+
+* **Porcentaje del gasto público en Salud (% del PBI)**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PorcentajeGastoSalud.Desc <- summaryBy(PorcentajeGastoSalud ~ Year, data = Happiness,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = round(median(x, na.rm = T), digits = 2),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = round(min(x, na.rm = T), digits = 2),
+Maximo = round(max(x, na.rm = T), digits = 2),
+PrimerCuartil = round(quantile(x, probs = c(.25), na.rm = T), digits = 2),
+TercerCuartil = round(quantile(x, probs = c(.75), na.rm = T), digits = 2))})
+
+PorcentajeGastoSalud.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: Fuente: Banco Mundial"),
+  title_format = "bold")
+
+Happiness %>% 
+  ggplot(aes(x=PorcentajeGastoSalud))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 25)+
+  theme_bw() +
+  labs(x="Porcentaje del gasto público en Salud 
+       (% del PBI)", y="Número de casos", 
+       title="Distribución de casos de la 
+       VI Porcentaje del gasto público en Salud (% del PBI)",
+       caption = "Fuente: Banco Mundial")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+lillie.test(Happiness$PorcentajeGastoSalud)
+```
+</div>
+
+La variable independiente, *Porcentaje del gasto público en salud (% del PBI)*, es una variable de tipo porcentaje construida por el Banco Mundial. La variable presenta una media de 6.83 puntos porcentuales, una mediana de 6.62 puntos porcentuales y una desviación estándar de 2.69 puntos porcentuales. Asimismo, tiene un valor mínimo de 2.47 puntos porcentuales y un valor máximo de 16.84 puntos porcentuales, y tiene una rango intercuartílico de 3.76 puntos porcentuales. La variable presenta, en el histograma, una distribución normal, pues no pareciera que la distribución estuviera sesgada hacia una cola. No obstante, hay unos cuantos casos atípicos, *outliers*, que tienen un porcentaje de gasto en salud muy superior al del resto de países. Sin embargo, esto no compromete la distribución, pues si aplicamos el test de normalidad 'Kolmogorov-Smirnov', vemos que p > 0.05. 
+
+**Justificación:** Dado que el objetivo del reporte es analizar el efecto del gasto en servicios sociales en la varianza del Nivel de felicidad, considero que la VI Porcentaje del gasto público en salud (% del PBI) es relevante en tanto, en líneas generales, permite tener una población con mejor cobertura de salud y esperanza y calidad de vida, lo que entiendo que se traduce en mayor felicidad de la población. De ahí que espero encontrar una relación significativa positiva con la VD. 
+
+* **Porcentaje del gasto público en Educacion (% del PBI)**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+
+PorcentajeGastoEducacion.Desc <- summaryBy(PorcentajeGastoEducacion ~ Year, data = Happiness,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = round(median(x, na.rm = T), digits = 2),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = round(min(x, na.rm = T), digits = 2),
+Maximo = round(max(x, na.rm = T), digits = 2),
+PrimerCuartil = round(quantile(x, probs = c(.25), na.rm = T), digits = 2),
+TercerCuartil = round(quantile(x, probs = c(.75), na.rm = T), digits = 2))})
+
+PorcentajeGastoEducacion.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: Fuente: Banco Mundial"),
+  title_format = "bold")
+
+Happiness %>% 
+  ggplot(aes(x=PorcentajeGastoEducacion))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 25)+
+  theme_bw() +
+  labs(x="Porcentaje del gasto público en Educación 
+       (% del PBI)", y="Número de casos", 
+       title="Distribución de casos de la 
+       VI Porcentaje del gasto público en Educación (% del PBI)",
+       caption = "Fuente: Banco Mundial")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+lillie.test(Happiness$PorcentajeGastoEducacion)
+```
+</div>
+
+La variable independiente, *Porcentaje del gasto público en Educacion (% del PBI)*, es una variable de tipo porcentaje construida por el Banco Mundial. La variable presenta una media de 4.38 puntos porcentuales, una mediana de 4.29 puntos porcentuales y una desviación estándar de 1.59 puntos porcentuales. Asimismo, tiene un valor mínimo de 1.19 puntos porcentuales y un valor máximo de 10.65 puntos porcentuales, y tiene una rango intercuartílico de 1.89 puntos porcentuales. La variable presenta, en el histograma, una distribución normal, pues no pareciera que la distribución estuviera sesgada hacia una cola. No obstante, hay unos cuantos casos atípicos, *outliers*, que tienen un porcentaje de gasto en educación muy superior al del resto de países. Sin embargo, esto no compromete la distribución, pues si aplicamos el test de normalidad 'Kolmogorov-Smirnov', vemos que p > 0.05. 
+
+**Justificación:** Dado que el objetivo del reporte es analizar el efecto del gasto en servicios sociales en la varianza del Nivel de felicidad, considero que la VI Porcentaje del gasto público en Educacion (% del PBI) es relevante en tanto, en líneas generales, permite tener una población con mayores oportunidades educativas, oportunidades laborales, y herramientas para ser agentes activos en la vida social y económica de sus comunidades. Entiendo que estas condiciones de vida se traducen en mayor felicidad de la población. De ahí que espero encontrar una relación significativa positiva con la VD. Los países más felices del mundo, según *World Happiness report* son los que más gastan en Educación: Finlandia, Dinamarca, Países Bajos, Noruega, etc. Ahora bien, también hay estudios y posiciones que argumentan que una amplia oferta educativa puede conducir a altas expectativas no cumplidas entre la población, lo cual deviene en problemas de ansiedad o drepesión, especialmente en estudiantes de educación superior y posgrado (NYT, 2022; Boston University, 2021; Wu et. al., 2014). Por ello, en el Modelo 3, aplicaré un efecto cuadrático a la VI Porcentaje del gasto público en Educacion (% del PBI).
+
+**Variables de control: Desempeño económico**
+
+* **PBI per capita (dólares a precios fijos del 2017)**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PBI_PC.Desc <- summaryBy(PBI_PC ~ Year, data = Happiness,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 0), 
+Md = round(median(x, na.rm = T), digits = 0),
+Desv = round(sd(x, na.rm = T), digits = 0), 
+Minimo = round(min(x, na.rm = T), digits = 0),
+Maximo = round(max(x, na.rm = T), digits = 0),
+PrimerCuartil = round(quantile(x, probs = c(.25), na.rm = T), digits = 0),
+TercerCuartil = round(quantile(x, probs = c(.75), na.rm = T), digits = 0))})
+
+PBI_PC.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: Fuente: Banco Mundial"),
+  title_format = "bold")
+
+Happiness %>% 
+  ggplot(aes(x=PBI_PC))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 25)+
+  theme_bw() +
+  labs(x="PBI per capita 
+       (dólares a precios fijos del 2017)", y="Número de casos", 
+       title="Distribución de casos de la VC PBI per capita 
+       (dólares a precios fijos del 2017)",
+       caption = "Fuente: Banco Mundial")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+lillie.test(Happiness$PBI_PC)
+```
+</div>
+
+La variable de control, *PBI per capita (% del PBI)*, es una variable de tipo numérica construida por el Banco Mundial. La variable presenta una media de 20 366 dólares anuales, una mediana de 12 964  dólares anuales y una desviación estándar de 20 470  dólares anuales. Desde ya podemos notar, por la media y la mediana, que la variable presenta un sesgo positivo notorio, además de una dispersión de casos sumamente grande si consideramos la desviación estándar. Asimismo, tiene un valor mínimo de 795 dólares anuales y un valor máximo de 113 036 dólares anuales, y tiene una rango intercuartílico de 23 791 dólares anuales. La variable presenta, en el histograma, una distribución evidentemente sesgada. Esto lo podemos comprobar con el test de normalidad 'Kolmogorov-Smirnov', p < 0.05.
+
+* **log PBI per capita (dólares a precios fijos del 2017)**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+Happiness %>% 
+  ggplot(aes(x=PBI_PC_log))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 25)+
+  theme_bw() +
+  labs(x="log PBI per capita 
+       (dólares a precios fijos del 2017)", y="Número de casos", 
+       title="Distribución de casos de la VC log PBI per capita
+       (dólares a precios fijos del 2017)",
+       caption = "Fuente: Banco Mundial")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+lillie.test(Happiness$PBI_PC_log)
+```
+</div>
+
+Para solucionar el problema del sesgo en la distribución de la VC PBI per capita es que la hemos transformado a su versión logarítmica, de modo que sea *log PBI per capita*. La variable presenta, en el histograma, una distribución que se asemeja más a una distribución normal (en comparación con su versión no logarítmica). No obstante, cuando realizamos el test de normalidad 'Kolmogorov-Smirnov', el p < 0.05. Ahora bien, el p ha aumentado considerablemente repecto de la versión no logarítmica de esta VC.
+
+**Justificación:** La VC log PBI per capita es relevante pues es el indicador más utilizado para medir el bienestar económico y material de la población de un país en general. Si bien debe ser complementado con otros indicadores (p. ej. tenemos países como EAU con un alto PBI per capita pero baja felicidad), considero que esta variable funciona como una VC pertinente para 'controlar' el efecto del bienestar económico respecto de la varianza del Nivel de felicidad promedio. Es más, el propio *World Happiness report* tiene la variable log PBI per capita presente en su modelo  *Regressions to Explain Average Happiness across Countries (Pooled OLS)* (WHR, 2022), por lo que creo es una variable necesaria a considerar.  
+
+* **Porcentaje de Desempleo (% del total de la fuerza de trabajo)**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PorcentajeDesempleo.Desc <- summaryBy(PorcentajeDesempleo ~ Year, data = Happiness,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = round(median(x, na.rm = T), digits = 2),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = round(min(x, na.rm = T), digits = 2),
+Maximo = round(max(x, na.rm = T), digits = 2),
+PrimerCuartil = round(quantile(x, probs = c(.25), na.rm = T), digits = 2),
+TercerCuartil = round(quantile(x, probs = c(.75), na.rm = T), digits = 2))})
+
+PorcentajeDesempleo.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: Fuente: Banco Mundial"),
+  title_format = "bold")
+
+Happiness %>% 
+  ggplot(aes(x=PorcentajeDesempleo))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 25)+
+  theme_bw() +
+  labs(x="Porcentaje de Desempleo 
+       (% del total de la fuerza de trabajo)", y="Número de casos", 
+       title="Distribución de casos de la VC Porcentaje de Desempleo 
+       (% del total de la fuerza de trabajo)",
+       caption = "Fuente: Banco Mundial")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+lillie.test(Happiness$PBI_PC)
+```
+</div>
+
+La variable de control, *Porcentaje del Desempleo (% de la fuerza de trabajo, estimado nacional)*, es una variable de tipo porcentaje construida por el Banco Mundial. La variable presenta una media de 8.34 puntos porcentuales, una mediana de 6.22 puntos porcentuales y una desviación estándar de 6.11 puntos porcentuales. Desde ya podemos notar, por la media y la mediana, que la variable presenta un sesgo positivo, aunque no tan notorio. Asimismo, tiene un valor mínimo de 0.69 puntos porcentuales y un valor máximo de 27.49 puntos porcentuales, y tiene una rango intercuartílico de 5.45 puntos porcentuales. La variable presenta, en el histograma, una distribución evidentemente sesgada. Esto lo podemos comprobar con el test de normalidad 'Kolmogorov-Smirnov', p < 0.05.
+
+* **log Porcentaje de Desempleo (% del total de la fuerza de trabajo)**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+Happiness %>% 
+  ggplot(aes(x=PorcentajeDesempleo_log))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 25)+
+  theme_bw() +
+  labs(x="log Porcentaje de Desempleo 
+       (% del total de la fuerza de trabajo)", y="Número de casos", 
+       title="Distribución de casos de la VC log Porcentaje de Desempleo 
+       (% del total de la fuerza de trabajo)",
+       caption = "Fuente: Banco Mundial")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+lillie.test(Happiness$PorcentajeDesempleo_log)
+```
+</div>
+
+Para solucionar el problema del sesgo en la distribución de la VC Porcentaje de Desempleo es que la hemos transformado a su versión logarítmica, de modo que sea *log Porcentaje de Desempleo*. La variable presenta, en el histograma, una distribución similar a una distribución normal. Esto lo podemos comprobar con el test de normalidad 'Kolmogorov-Smirnov', p > 0.05.
+
+**Justificación:** La VC Porcentaje de Desempleo es importante pues es uno de los indicadores más relavantes para medir el desempeño económico de un país y, por lo tanto, del bienestar económico y material de su población. Considero que esta variable funciona como una VC pertinente para 'controlar' el efecto del bienestar laboral y económico respecto de la varianza del Nivel de felicidad promedio.
+
+**Análisis bivariado**
+
+**Variables independientes**
+
+* **Porcentaje del gasto público en Salud (% del PBI) - el Nivel de felicidad**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PorcentajeGastoSalud.Bi <- Happiness %>% 
+  ggplot(aes(x=PorcentajeGastoSalud, y=Felicidad))+
+  geom_point(size=1.5) +
+  stat_smooth(aes(y=Felicidad), method = "lm",se=F) +  
+   labs(x="-", y="-", 
+       title="-",
+       caption = "Fuente: Banco Mundial")+
+  theme(panel.border= element_rect(fill="transparent"), 
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PorcentajeGastoSalud.cor <- cor.test(Happiness$Felicidad, Happiness$PorcentajeGastoSalud, na.rm= F)
+PorcentajeGastoSalud.cor.1 <-PorcentajeGastoSalud.cor$estimate
+
+PorcentajeGastoSalud.Bi + annotate(geom="label", x=16, y=8,
+                        label=paste("r=", round(PorcentajeGastoSalud.cor.1,2)),
+                        color="black",
+                        size = 4) 
+
+```
+</div>
+
+El gráfico de dispersión nos muestra que hay una correlación positiva entre la VI *Porcentaje del gasto público en Salud (% del PBI)* y el Nivel de felicidad. Asimismo, si trazamos una curva de regresión lineal, podemos ver que la relación entre ambas variables es significativa, pues tiene una pendiente relativamente elevada. Si vemos el test de correlación, vemos que es una correlación media débil (0.36). No obstante, hay que señalar que la gran mayoría de casos se encuentran entre el 0% y el 10% de gasto en salud, ello se debe a que la mayoría de países no invierten en ello. Podríamos concluir, de manera preliminar, que hay un cierto nivel de correlación entre la VI *Porcentaje del gasto público en Salud* y el Nivel de felicidad. 
+
+* **Porcentaje del gasto público en Educacion (% del PBI) - el Nivel de felicidad**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PorcentajeGastoEducacion.Bi <- Happiness %>% 
+  ggplot(aes(x=PorcentajeGastoEducacion, y=Felicidad))+
+  geom_point(size=1.5) +
+  stat_smooth(aes(y=Felicidad), method = "lm",se=F) +  
+  stat_smooth(aes(y=Felicidad), method = "lm", formula = y ~ x + I(x^2),se=F) +   
+   labs(x="Porcentaje del gasto público en Educacion (% del PBI)", y="Nivel de felicidad", 
+       title="Correlación entre 
+       Porcentaje del gasto público en Educacion y el Nivel de felicidad",
+       caption = "Fuente: Banco Mundial")+
+  theme(panel.border= element_rect(fill="transparent"), 
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PorcentajeGastoEducacion.cor <- cor.test(Happiness$Felicidad, Happiness$PorcentajeGastoEducacion, na.rm= F)
+PorcentajeGastoEducacion.cor.1 <-PorcentajeGastoEducacion.cor$estimate
+
+PorcentajeGastoEducacion2.cor <- cor.test(Happiness$Felicidad, Happiness$PorcentajeGastoEducacion2, na.rm= F)
+PorcentajeGastoEducacion2.cor.1 <-PorcentajeGastoEducacion2.cor$estimate
+
+PorcentajeGastoEducacion.Bi + annotate(geom="label", x=10.35, y=8,
+                        label=paste("r=", round(PorcentajeGastoEducacion.cor.1,2)),
+                        color="black",
+                        size = 4) + annotate(geom="label", x=10.35, y=7.5,
+                        label=paste("r=", round(PorcentajeGastoEducacion2.cor.1,2)),
+                        color="black",
+                        size = 4)
+```
+</div>
+
+El gráfico de dispersión nos muestra que hay una correlación positiva entre la VI *Porcentaje del gasto público en Educación (% del PBI)* y el Nivel de felicidad. Si trazamos una curva de regresión lineal podemos ver que la relación entre ambas variables es significativa, pues tiene una pendiente relativamente elevada. Si vemos el test de correlación, vemos que es una correlación media débil (0.33). Ahora bien, como señalamos previamente, vamos a ver si hay un efecto cuadrático  significativo enntre la VI Porcentaje del gasto público en Educación y la VD. Si trazamos una curva de regresión cuadrática podemos ver que hay cierta relación entre ambas variables. Además, si vemos el test de correlación de la VI con un efecto cuadrático, vemos que sigue siendo una correlación media débil (0.26). No obstante, hay que señalar que la gran mayoría de casos se encuentran entre el 0% y el 7% de gasto en Educacion, ello se debe a que la mayoría de países no invierten en ello. Podríamos concluir, de manera preliminar, que hay un cierto nivel de correlación entre la VC *Porcentaje del gasto público en Educacion*, con y sin efecto cuadrático, y el Nivel de felicidad. 
+
+**Variables de control**
+
+* **log PBI per capita - el Nivel de felicidad**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PBI_PC_log.Bi <- Happiness %>% 
+  ggplot(aes(x=PBI_PC_log, y=Felicidad))+
+  geom_point(size=1.5) +
+  stat_smooth(aes(y=Felicidad), method = "lm",se=F) +  
+   labs(x="log PBI per capita (dólares a precios fijos del 2017)", y="Nivel de felicidad", 
+       title="Correlación entre 
+       log PBI per capita y el Nivel de felicidad",
+       caption = "Fuente: Banco Mundial")+
+  theme(panel.border= element_rect(fill="transparent"), 
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PBI_PC_log.cor <- cor.test(Happiness$Felicidad, Happiness$PBI_PC_log, na.rm= F)
+PBI_PC_log.cor.1 <-PBI_PC_log.cor$estimate
+
+PBI_PC_log.Bi + annotate(geom="label", x=11.25, y=8,
+                        label=paste("r=", round(PBI_PC_log.cor.1,2)),
+                        color="black",
+                        size = 4) 
+```
+</div>
+
+El gráfico de dispersión nos muestra que hay una correlación positiva entre la VC *log PBI per capita* y el Nivel de felicidad. Asimismo, si trazamos una curva de regresión lineal podemos ver que la relación entre ambas variables es significativa, pues tiene una pendiente elevada. Además, si vemos el test de correlación, vemos que es una correlación fuerte (0.79). De ello podríamos concluir, de manera preliminar, que hay un gran nivel de correlación entre la VC *log PBI per capita* y el Nivel de felicidad. 
+
+* **log Porcentaje de Desempleo - el Nivel de felicidad**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PorcentajeDesempleo_log.Bi <- Happiness %>% 
+  ggplot(aes(x=PorcentajeDesempleo_log, y=Felicidad))+
+  geom_point(size=1.5) +
+  stat_smooth(aes(y=Felicidad), method = "lm",se=F) +  
+   labs(x="log Porcentaje de Desempleo (% del total de la fuerza de trabajo)", y="Nivel de felicidad",
+       title="Correlación entre 
+       log Porcentaje de Desempleo y el Nivel de felicidad",
+       caption = "Fuente: Banco Mundial")+
+  theme(panel.border= element_rect(fill="transparent"), 
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PorcentajeDesempleo_log.cor <- cor.test(Happiness$Felicidad, Happiness$PorcentajeDesempleo_log, na.rm= F)
+PorcentajeDesempleo_log.cor.1 <-PorcentajeDesempleo_log.cor$estimate
+
+PorcentajeDesempleo_log.Bi + annotate(geom="label", x=3.1, y=8,
+                        label=paste("r=", round(PorcentajeDesempleo_log.cor.1,2)),
+                        color="black",
+                        size = 4) 
+```
+</div>
+
+El gráfico de dispersión nos muestra que hay una correlación negativa entre la VC *log Porcentaje de Desempleo* y el Nivel de felicidad. Si trazamos una curva de regresión lineal podemos ver que la relación entre ambas variables no es muy notoria, pues no tiene una pendiente muy pronunciada. Si vemos el test de correlación, vemos que es una correlación débil (0.09). De ello podríamos concluir, de manera preliminar, que no podríamos decir que hay una correlación significativa entre la VC *log Porcentaje de Desempleo* y el Nivel de felicidad. 
+
+##### **3) Planteamiento de modelos**
+
+**Modelo 1** 
+
+<div align="center">
+$$
+Y_i = B_0 + B_1*log PBI per capita + B_2*log Porcentaje Desempleo + e_i
+$$
+</div>
+
+**Justificación:** El Modelo 1 pretende explicar la varianza a partir de las dos VC, las cuales son dos de los indicadores más determinantes para evaluar el desempeño económico en un país. De esa manera, el Modelo 1 pretende explicar la varianza en el Nivel de felicidad solo utilizando variables de tipo 'económicas'. El razonamiento que seguimos para el diseño del Modelo 1 es el siguiente: los países que tengan un mejor desempeño económico, es decir, un mayor nivel de PBI per capita, y un menor porcentaje de desempleo, van a tener niveles de felicidad más altos. Ello se debe a que, generalmente, países con economías más solidas, en el cual sus ciudadanos tengan más empleo y salarios promedio más elevados, tendrán mayor capacidad adquisitiva para acceder a servicos y bienes de consumo, los cuales podemos asumir que aumentan el nivel de felicidad. Aquí encontramos países con un alto PBI per capita como Luxemburgo, Singapur, Irlanda, Suiza, Emiratos Árabes Unidos, Noruega o Estados Unidos. El motivo por el que el Modelo 1 solo contiene las VC, se debe a que el propósito del presente trabajo es comparar en qué medida las variables de gasto en servicios sociales (VI) afectan en la explicación de la varianza (R2) para determinar el nivel de felicidad. Para ello es necesario tener un Modelo 1 de 'control' que solo calcule la explicación de la varianza (R2) por medio de las VC de desempeño económico.
+
+**Modelo 2** 
+
+<div align="center">
+$$
+Y_i = B_0 + B_1*log PBI per capita + B_2*log Porcentaje Desempleo + \\ B_3*PorcentajeGastoSalud + B_4*PorcentajeGastoEducacion + e_i
+$$
+</div>
+
+**Justificación:** El Modelo 2 pretende explicar la varianza a partir de las dos VC y las dos VI, las cuales son las dos variables de gasto en servicios sociales que nos interesan. El razonamiento que seguimos para el diseño del Modelo 2 es el siguiente: controlando el efecto en la varianza de las variables de desempeño económico (PBI per capita y Porcentaje de Desempleo), los países que tengan un mayor porcentaje de gasto en servicos sociales, en Salud y Educación, van a tener niveles de felicidad más altos. Ello se debe a que, generalmente, países con Estados de Bienestar más asentados y participativos, en los cuales sus ciudadanos tengan un mayor y mejor acceso a servicios de salud y educación pública, sus ciudadanos tienen un mayor bienestar social, oportunidades educativas y laborales, así como un sentido de protección y bienestar comunitario. Así, podemos asumir que estas condiciones de bienestar social aumentan el nivel de felicidad. Aquí encontramos países con un  Estado de Bienestar como Finlandia, Dinamarca, Noruega, Suecia, Francia, Países Bajos o Alemania. El Modelo 2 integra las 4 variables de interés, y nos permite comparar cómo las VI de gasto en servicios sociales afectan en la explicación de la varianza (R2) para determinar el nivel de felicidad, una vez consideradas las VC de desempeño económico en el Modelo 1. Esperamos encontrar que haya un incremento en el nivel de explicación de la varianza (R2), pues consideramos que hay parte de la varianza que las VC de desempeño económico no pueden capturar. Asimismo, el Modelo 2 tiene el propósito de 'controlar' las VI con la VC de modo que se considera tanto el efecto de las variables de gasto en servicios sociales y las de desempeño económico.
+
+**Modelo 3**
+
+<div align="center">
+$$
+Y_i = B_0 + B_1*log PBI per capita + B_2*log Porcentaje Desempleo + \\ B_3*PorcentajeGastoSalud + B_4*PorcentajeGastoEducacion + B_5*PorcentajeGastoEducacion^2 + e_i
+$$
+</div>
+
+**Justificación:** El Modelo 3, al igual que el modelo 2, pretende explicar la varianza a partir de las dos VC y las dos VI, las cuales son las dos variables de gasto en servicios sociales que nos interesan. El razonamiento que seguimos para el diseño del Modelo 3 es similar al del Modelo 2, con la única diferencia de que vamos a probar un efecto cuadrático en la VI *Porcentaje del gasto público en Educacion (% del PBI)*. El razonamiento es el siguiente: si bien el gasto en educación puede ser un factor que eleve el nivel de felicidad en un país, pues incrementa las oportunidades educativas y laborales de su población; también puede ser un factor de 'anomia' en una sociedad que está expuesta constantemente a los cambios culturales y sociales que implica un sistema educativo altamente desarrollado. A nivel individual, implica que las expectativas y metas académicas sean sumamente elevadas, lo cual puede traer, en cierto punto, problemas de ansiedad o depresión entre la población joven. El Modelo 3, en consecuencia, nos permite ver si hay una relación  significativa entre el Porcentaje del gasto público en Educacion (% del PBI) con un efecto cuadrático y el Nivel de felicidad, empero, también nos ayudará a ver si hay un incremento en el nivel de explicación de la varianza (R2) con el efecto cuadrático. 
+
+##### **4) Reporte de modelos**
+
+<div align="center">
+```{r warning=FALSE, include=FALSE}
+Modelo1 <- lm(Felicidad ~ PBI_PC_log + PorcentajeDesempleo_log, data = Happiness)
+Modelo2 <- lm(Felicidad ~ PBI_PC_log + PorcentajeDesempleo_log + PorcentajeGastoSalud + PorcentajeGastoEducacion, data = Happiness)
+Modelo3 <- lm(Felicidad ~ PBI_PC_log + PorcentajeDesempleo_log + PorcentajeGastoSalud + PorcentajeGastoEducacion + PorcentajeGastoEducacion2, data = Happiness)
+```
+</div>
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE, results='asis'}
+stargazer(Modelo1,Modelo2, Modelo3,
+          title = "Resultados de regresión", 
+          no.space = T,
+          style = "default",
+          type="text",
+          column.labels = c("Modelo 1","Modelo 2", "Modelo 3"),
+          dep.var.labels = "Nivel de felicidad (0-10)", 
+          covariate.labels = c("log PBI per capita", "log Porcentaje Desempleo", "Porcentaje gasto en Salud", "Porcentaje gasto en Educación", "Porcentaje gasto en Educación (cuadrática)"),
+          ci.separator = "-",
+          digits = 2,
+          notes.align = "r")
+```
+</div>
+
+
+**Reporte de elementos de los modelos**
+
+En los 3 Modelos encontramos que las VC, log PBI per capita y log Porcentaje Desempleo, tienen un p < 0.01, por lo que podemos concluir que el beta de ambas variables de desempeño económico mantienen una relación con alta significancia con la VD, incluso una vez consideradas las VI (Modelos 2 y 3), por lo que su relación con el Nivel de felicidad es altamente significativa. Sobre las VI, en el Modelo 2 encontramos que la VI Porcentaje gasto en Salud tiene un p < 0.01, por lo que el beta de la variable mantiene una relación  altamente significativa con el Nivel de felicidad, lo mismo sucede en el Modelo 3, cuando agregamos el efecto cuadrático a la otra VI. En el Modelo 2, la VI Porcentaje gasto en Educación tiene un p < 0.1, por lo que el beta de la variable mantiene una relación significativa con el Nivel de felicidad. Ahora bien, en el Modelo 3, cuando agregamos el efecto cuadrático a la VI Porcentaje gasto en Educación vemos que la variable *sin* el efecto cuadrático ahora tiene un p < 0.05, y la variable *con* el efecto cuadrático tiene un p < 0.1. Esto significa que el beta de ambas VI mantiene una relación significativa con el Nivel de felicidad, y que el efecto cuadrático en la VI Porcentaje gasto en Educación tiene cierta relevancia en el modelo. Con esto hemos validado que los betas de la VI Porcentaje gasto en Educación, en su versión original como cuadrática, siguen siendo significativas, por lo que implementar el efecto cuadrático en dicha VI fue adecuado.
+
+Sobre el número de observaciones, vemos que el Modelo 1 tiene más (93) que los otros dos (71), ello se debe a que, al incluir las VI, se han restado las observaciones con NA en ellas. El numero de casos compromete, en consecuencia, los grados de libertad de cada modelo. Sobre el ES, vemos que el Modelo 1 tiene el ES más grande (0.57), lo que significa que, en promedio, los casos observados tienen una distancia de 0.57 puntos en la escala de Felicidad (0-10) respecto de la curva del Modelo 1. En los modelos 2 (0.49) y 3 (0.48) el ES decrece, lo que significa que la curva de ambos Modelos tiene una mayor capacidad predictora respecto de los casos observados. Por ejemplo, el Modelo 2 tiene un ES de 0.49, lo que significa que, en promedio, los casos observados tienen una distancia de 0.49 puntos en la escala de Felicidad (0-10) respecto de la curva del Modelo 2.
+
+**Reporte de coeficientes - efectos marginales** 
+
+Unas vez comprobado que todas las variables de los 3 modelos se relacionan significativamente con la VD, podemos ver los efectos marginales de cada variable por Modelo (coeficientes): 
+
+* **Modelo 1:** El modelo solo considera las VC de desempeño económico. Respecto a la VC log PBI per capita, tenemos que si el PBI per cápita de un país aumenta en 100%, la felicidad promedio de dicho país aumentaría en 0.79 puntos. Y respecto a la VC log Porcentaje de Desempleo, tenemos que si el Porcentaje de Desempleo de un país aumenta en 100% respecto del porcentaje *ya* existente, la felicidad promedio de dicho país decrecería en 0.27 puntos.
+
+* **Modelo 2:** El modelo considera las VC de desempeño económico y las VI de porcentaje en gasto social. Respecto a la VC log PBI per capita, tenemos que si el PBI per cápita de un país aumenta en 100%, la felicidad promedio de dicho país aumentaría en 0.71 puntos. Respecto a la VC log Porcentaje de Desempleo, tenemos que si el Porcentaje de Desempleo de un país aumenta en 100% respecto del porcentaje *ya* existente, la felicidad promedio de dicho país decrecería en 0.55 puntos. Respecto a la VI Porcentaje de gasto en Salud, tenemos que por cada punto porcentual de gasto adicional de un país en Salud, la felicidad promedio de dicho país aumentaría en 0.12 puntos. Por último, respecto a la VI Porcentaje de gasto en Educación, tenemos que por cada punto porcentual de gasto adicional de un país en Educación, la felicidad promedio de dicho país aumentaría en 0.08 puntos.
+
+* **Modelo 3:** El modelo considera las VC de desempeño económico y las VI de porcentaje en gasto social. Respecto a la VC log PBI per capita, tenemos que si el PBI per cápita de un país aumenta en 100%, la felicidad promedio de dicho país aumentaría en 0.68 puntos. Respecto a la VC log Porcentaje de Desempleo, tenemos que si el Porcentaje de Desempleo de un país aumenta en 100% respecto del porcentaje *ya* existente, la felicidad promedio de dicho país decrecería en 0.53 puntos. Respecto a la VI Porcentaje de gasto en Salud, tenemos que por cada punto porcentual de gasto adicional de un país en Salud, la felicidad promedio de dicho país aumentaría en 0.12 puntos. Ahora bien, respecto a la VI Porcentaje de gasto en Educación, a la cual hemos incluido un efecto cuadrático, tenemos el siguiente gráfico de efecto marginal:
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+Happiness <- Happiness[!(is.na(Happiness$PorcentajeGastoEducacion)), ]
+
+Interecept.M <- Modelo3$coefficients[[1]]
+PBI_PC_log.EM <- Modelo3$coefficients[[2]]
+PorcentajeDesempleo_log.EM <- Modelo3$coefficients[[3]]
+PorcentajeGastoSalud.EM <- Modelo3$coefficients[[4]]
+PorcentajeGastoEducacion.EM <- Modelo3$coefficients[[5]]
+PorcentajeGastoEducacion2.EM <- Modelo3$coefficients[[6]]
+
+Data.EM=data.frame(PorcentajeGastoEduc=seq(1,max(Happiness$PorcentajeGastoEducacion),0.0001))
+Data.EM$efectomarginal=PorcentajeGastoEducacion.EM+2*PorcentajeGastoEducacion2.EM*Data.EM$PorcentajeGastoEduc
+
+plot(Data.EM$PorcentajeGastoEduc,Data.EM$efectomarginal)
+abline(h=0, col="red")
+
+```
+</div>
+
+Dicho gráfico nos indica que mientras mayor sea el porcentaje de gasto en Educación el Nivel de felicidad aumentará según los parametros que se ven en el eje 'y', de modo que el efecto marginal es positivo pero decreciente. Una vez que el Porcentaje de gasto en Educación supera el 7%, aproximadamente, el efecto marginal pasa ser negativo, por lo que el Nivel de felicidad decrecerá cada vez más. El efecto es similar a como se vió en el análisis bivariado. Dado que la curva del modelo es cuadrática y no lineal, no podemos reportar el efecto marginal como un efecto constante (como sí sucede con las otras variables).
+
+**Reporte de R2 ajustado** 
+
+Dado que todos los modelos tienen más de una VI, utilizaremos el R2 como estadístico explicativo sobre la varianza. 
+
+El Modelo 1, con solo las VC de desempeño económico, permite explicar el 60% de la varianza del promedio de felicidad por país. Si bien es un nivel considerable, el Modelo 2, que incluye las VC de desempeño económico y las VI de gasto en servicios sociales, permite una explicación de la varianza del 72%, lo cual es una mejora sustantiva. Por último, el Modelo 3, que incluye las VC y las VI con la variable Porcentaje de gasto en Educación con efecto cuadrático, alcanza una explicación de la varianza del 73%, lo cual es una mejora mínima de la varianza explicada por el Modelo 2. Como podemos ver, con cada Modelo hay una mayor explicación de la varianza, no obstante, cada vez es más difícil encontrar variables pertinentes que tengan relaciones significativas con la VD  que aumenten el R2 sin romper el principio de parsimonia. 
+
+##### **5) Cumplimiento de requisitos**
+
+**Supuesto 2: Multicolinealidad**
+
+**Modelo 1: Coeficiente VIF**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+summ(Modelo1, vifs = TRUE)
+```
+</div>
+
+**Interpretación:** Si analizamos el Coeficiente VIF de las variables del Modelo 1 encontramos que los coeficientes son 1.02, por lo que no habría correlación entre las variables. Por lo tanto, no tenemos un problema de multicolinealidad. 
+
+**Modelo 2: Coeficiente VIF**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+summ(Modelo2, vifs = TRUE)
+```
+</div>
+
+**Interpretación:** Si analizamos el Coeficiente VIF de las variables del Modelo 2 encontramos que los coeficientes van del 1.24 al 1.56, por lo que no habría correlación entre las variables. Por lo tanto, no tenemos un problema de multicolinealidad. 
+
+**Modelo 3: Coeficiente VIF**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+summ(Modelo3, vifs = TRUE)
+```
+</div>
+
+No habría necesidad de sacar el Coeficiente VIF de las variables del Modelo 3, puesto que son las mismas que en el Modelo 2. Lo único que cambia es el efecto cuadrático en la VI Porcentaje de gasto en Educación (en este caso el VIF de dicha variable y su versión original sería > 10, pero es porque son la *misma* variable, así que no tiene relevancia)
+
+**Supuesto 5: Homocedasticidad de residuos**
+
+**Modelo 1: Gráfico de residuos y test de Breusch Pagan**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(Modelo1, 1)
+bptest(Modelo1)
+```
+</div>
+
+**Interpretación:** En el gráfico de residuos del Modelo 1, parece que la varianza de los residuos tiende a ser un poco dispersa, por lo que podría ser que tuvieramos un problema de heterocedasticidad. No obstante, si comprobamos esto con el test de Breusch Pagan, observamos que p > 0.05, por lo que tenemos una varianza de residuos que es constante para este modelo. Lo que significa que no hay problemas de heterocedasticidad.
+
+**Modelo 2: Gráfico de residuos y test de Breusch Pagan**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(Modelo2, 1)
+bptest(Modelo2)
+```
+</div>
+
+**Interpretación:** En el gráfico de residuos del Modelo 2, parece que la varianza de los residuos es constante (más que en el Modelo 1), por lo que no tendríamos un problema de heterocedasticidad. Si comprobamos esto con el test de Breusch Pagan, observamos que p > 0.05, por lo que, efectivamente, tenemos una varianza de residuos que es constante para este modelo. Lo que significa que no hay problemas de heterocedasticidad.
+
+**Modelo 3: Gráfico de residuos y test de Breusch Pagan**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(Modelo3, 1)
+bptest(Modelo3)
+```
+</div>
+
+**Interpretación:** En el gráfico de residuos del Modelo 3, parece que la varianza de los residuos es constante, por lo que no tendríamos un problema de heterocedasticidad. Si comprobamos esto con el test de Breusch Pagan, observamos que p > 0.05, por lo que, efectivamente, tenemos una varianza de residuos que es constante para este modelo. Lo que significa que no hay problemas de heterocedasticidad.
+
+
+En los 3 Modelos el test de Breusch Pagan arroja un p > 0.05. Por lo tanto, en los 3 Modelos estamos 'seguros' frente a  un error de tipo 1 -*ver efectos donde no los hay*-, y no sería necesario robustecer los ES.
+
+**Normalidad de residuos**
+
+**Modelo 1: Normalidad de residuos y test de Kolmogorov-Smirnov**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(Modelo1, 2)
+ks.test(Modelo1$residuals, 'pnorm')
+```
+</div>
+
+**Interpretación:** En el gráfico de normalidad de residuos del Modelo 1, parece que los residuos no siguen la línea que indica una distribución normal. Si comprobamos ello con el test de Kolmogorov-Smirnov, observamos que p < 0.05, lo que indica que los residuos del Modelo 1 no siguen una distribución normal, y que están, por el contrario, sesgados a dos colas.
+
+**Modelo 2: Normalidad de residuos y test de Kolmogorov-Smirnov**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(Modelo2, 2)
+ks.test(Modelo2$residuals, 'pnorm')
+```
+</div>
+
+**Interpretación:** En el gráfico de normalidad de residuos del Modelo 2, parece que los residuos no siguen la línea que indica una distribución normal (los residuos están incluso más dispersos que en el Modelo 1). Si comprobamos ello con el test de Kolmogorov-Smirnov, observamos que p < 0.05, lo que indica que los residuos del Modelo 2 no siguen una distribución normal, y que están, por el contrario, sesgados a dos colas.
+
+**Modelo 3: Normalidad de residuos y test de Kolmogorov-Smirnov**
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(Modelo3, 2)
+ks.test(Modelo3$residuals, 'pnorm')
+```
+</div>
+
+**Interpretación:** En el gráfico de normalidad de residuos del Modelo 3, parece que los residuos no siguen la línea que indica una distribución normal. Si comprobamos ello con el test de Kolmogorov-Smirnov, observamos que p < 0.05, lo que indica que los residuos del Modelo 3 no siguen una distribución normal, y que están, por el contrario, sesgados a dos colas.
+
+##### **6) Conclusión y justificación de la elección del Modelo **
+
+Después de haber analizado los modelos considero que el modelo más adecuado es el **Modelo 3**, las razones son las siguientes: 
+* Es el que tiene el R2 más alto (73%), por lo tanto, es el Modelo con mayor capacidad explicativa sobre la varianza del nivel de felicidad promedio de un país. Por lo tanto, el Modelo 3 es el que mejor cumple el objetivo del presente reporte, que es *explicar la varianza del Nivel de felicidad promedio*.  
+*Además de tener el R2 más alto, todas las VI y VC del Modelo 3 mantienen una relación significativa con la VD, con al menos el mismo nivel de significancia que los Modelos 1 y 2, por lo que no habría una variable que 'sobre' o que sea menos 'significativa' que en otro modelo. 
+*Es el que considera que la VI Porcentaje de gasto en Educación podría tener un efecto cuadrático sobre el Nivel de felicidad. Dicha VI con efecto cuadrático mantiene una relación significativa con la VD; además, también lo hace su versión original (incluso con un mayor nivel de significancia que en el Modelo 2). 
+* Como vimos con las pruebas del Supuesto 2, el Modelo 3 no presenta problemas de Multicolinealidad. 
+* Como vimos con las pruebas del Supuesto 5, el Modelo 3 no presenta problemas de Heterocedasticidad. 
+* Como vimos con las pruebas de normalidad de residuos, los residuos del Modelo 3 no siguen una distribución normal, lo cual es un problema. No obstante, los Modelo 1 y 2 tienen el mismo problema. 
+
+
+##### **Fuentes**
+
+Marchese, D. para NYT (2022). "La profesora de felicidad de Yale dice que la ansiedad está destruyendo a sus alumnos". Recuperado el 29 de junio del 2022 de: https://www.nytimes.com/es/2022/02/25/espanol/laurie-santos-felicidad-yale.html
+
+The Brink (2021). "Depression, Anxiety, Loneliness Are Peaking in College Students". Recuperado el 29 de junio del 2022 de: https://www.bu.edu/articles/2021/depression-anxiety-loneliness-are-peaking-in-college-students/
+
+World Happiness Report (2022). "Happiness, Benevolence, and Trust During COVID-19 and Beyond". Recuperado el 29 de junio del 2022 de: https://worldhappiness.report/ed/2022/
+
+Wu, S. S., Willcutt, E. G., Escovar, E., & Menon, V. (2014). "Mathematics Achievement and Anxiety and Their Relation to Internalizing and Externalizing Behaviors". *Journal of Learning Disabilities*, 47(6), 503–514. https://doi.org/10.1177/0022219412473154
+

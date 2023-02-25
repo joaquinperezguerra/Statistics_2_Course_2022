@@ -1,0 +1,999 @@
+---
+title: "Estadística para el Análisis Sociológico 2" 
+output: html_document
+author: "Joaquín Pérez Guerra (2018 0335)"
+date: '10-07-2022'
+subtitle: "Entrega Final"
+---
+<style>
+body {text-align: justify}
+</style>
+
+#### **1) Introducción**
+
+**Tema:** Determinantes de las Acitudes frente a la Ciencia & Tecnología. 
+
+**Pregunta:** ¿Cuáles son los determinantes (VI) de las Acitudes frente a la Ciencia & Tecnología (VD)?
+
+**Justificación:** el interés sobre el tema surge de los movimientos anti-vacunas vistos en los últimos dos años, a propósito de la pandemia de la Covid-19. Especialmente, de los movimientos anti-vacunas en EE.UU. y en gran parte de Europa occidental (p. ej. Alemania, Países Bajos, Austria, etc.) en los que el tema de la vacunación, y la confianza en la investigación científica en general, se politizaron o fueron utilizados por actores políticos vinculados con la extrema derecha, el neoconservadurismo o movimientos libertarios. En ese sentido, me interesa saber de qué manera las valoraciones sobre el desarrollo tecnológico y científico podrían ser un *proxy* interesante para indagar en las posturas políticas, el conservadurismo político y moral, la clase social y las prácticas religiosas como sus determinantes. Empero, sería interesante, además, hacer un análisis comparativo sobre si las condiciones sociales que determinan las actitudes de las personas frente a la ciencia y tecnología en países post-industrializados son igualmente influyentes en países en vías de desarrollo o de desarrollo intermedio como el Perú. Pues en el Perú, a pesar de ser un país políticamente fragmentado, con movimientos de derecha neoconservadora importantes, y con una población mayoritariamente religiosa y que consume medios de comunicación no convencionales; el tema de la vacunación y del desarrollo científico no ha sido politizado.
+
+**Breve revisión de la literatura:** La discusión académica sobre el anti-cientificismo (o anti-intelectualismo) ha sido un tema de gran interés para las ciencias sociales y la psicología social en los últimos años. Un consenso explícito es que las actitudes negativas frente a la ciencia no se explican por el anti-cientificismo *per se*, es decir, no se trata de que las personas tengan actitudes negativas o conductas escépticas frente a la ciencia por sus características inherentes de producción del conocimiento. Así, el debate sobre los determinantes en las actitudes frente a la ciencia y tecnología debería superar la dicotomía pro-cientificismo vs anti-cientificismo y debería buscar categorías de análisis propiamente sociológicas (Hicks, 2017). 
+
+Las explicaciones de las ciencias sociales para el anti-cientificismo utilizan el mecanismo del *motivated reasoning* de la psicología social (Kunda, 1990; Epley y Gilovich, 2016). Hay dos tipos de *motivated reasoning*, i) *reasoning driven by acuracy goals*: aquí los sujetos intentan deliberadamente hacer un mayor análisis y escrutinio de la información obtenida, así como una búsqueda rigurosa de mayor información. La lógica de este tipo de *motivated reasoning* reside en la motivación de evitar el error, de modo que el sujeto aumenta los pruebas cognitivas y de escrutinio para evitar caer en él. De ahí que este tipo de razonamiento evite los juicios de valor desmesurados y prefiera apostar por juicios para los que se tenga suficientes pruebas. No obstante, el *reasoning driven by acuracy goals* no implica, *a priori*, que siempre se va a eliminar los sesgos y mejorar el razonamiento y conducción de silogismos (Kunda, 1990); ii) *Reasoning driven by directional goals*: aquí los sujetos están motivados por llegar a un tipo de conclusión determinada. Si bien el *Reasoning driven by directional goals* puede motivar una mayor búsqueda de información, esta búsqueda estaría sesgada para encontrar información que justifique la conclusión que se desea alcanzar: "people motivated to arrive at a particular conclusion attempt to be rational and to construct a justification of their desired conclusion that would persuade a dispassionate observer. They draw the desired conclusion only if they can muster up the evidence necessary to support it" (Kunda, 1990: 5). En consecuencia, los actores utilizan fuentes de información y memorias, además de razonamientos y silogismos, de forma selectiva de modo que puedan reconstruir una narrativa de racionalidad que los favorezca -*illusion of objectiviy*-. En esta forma de razonamiento los actores son menos exigentes y escrupulosos para analizar información y datos que compartan sus puntos de vista. Emtonces, no se trata de que los sujetos sean totalmente irracionales y decidan creer *cualquier* cosa, sino que utilizan información y datos que los conduzcan a las conclusiones favorables. 
+
+Para el estudio del anti-cientificismo nos interesa el *Reasoning driven by directional goals*: no se trata de que las personas tengan actitudes negativas frente a la ciencia porque sí o por ignorancia, sino que el conocimiento científico  es un terreno de disputa frente a otras fuentes de verdad y conocimiento, entre las más importantes están la religión, los valores morales, y las afinidades políticas (Kraft, Lodge y Taber, 2015; Blank y Shaw, 2015; Pasek 2017). La explicación de la psicología social en la *dissonance theory* (Kunda, 1990) consiste en que, cuando hay dos perspectivas epistémicas discordantes que pueden generar consecuencias negativas o incomodas para los sujetos, estos estarán motivados a formular y construir una narrativa unitaria  de todas las perspectivas. En ese sentido, el conocimiento científico *compite* con valores religiosos, morales y políticos. La consecuencia de dicha 'competencia' epistémica sería que los sujetos terminen por adoptar posturas y creencias anti-cientificistas para que no haya disonancia entre sus creencias (anti)científicas y sus creencias religiosas, morales y/o políticas. Estas últimas fuentes de conocimiento están condicionadas por lo grupos de pares, es decir, por la socialización (Epley y Gilovich, 2016).
+
+La literatura revisada (Blank y Shaw, 2015; Pasek 2017; Motta, 2018; Gauchat, 2012) coincide en que hay tres arenas que compiten con el conocimiento científicos y que, por lo tanto, pueden motivar a las personas a tomar posturas anti-científicas: i) **la religión**, ii) **la ideología**, entiéndase esto como la identificación dentro del espectro de valores conservadores-liberales, y iii) **la postura política** (este punto, al haber sido estudiado desde la academia de Estados Unidos, depende de la división política bipartidaria Republicano (derecha) -Demócrata (izquierda)). En cuanto a la religión, especialmente en América Latina, el argumento de Romero (2009) es que esta no debería ser comprendida solo desde la creencia en Dios, sino como un set de creencias y prácticas, por lo que medir la religión por la mera creencia en Dios es un indicador incompleto. Como señala Romero: "Los estudios sobre religión en América Latina muestran que la secularización está creciendo sin que disminuya la creencia en Dios" (2009: 363). 
+
+Por el lado 'político', si bien la literatura coincide en que los Demócratas tienden a tener actitudes más positivas frente a la ciencia que los Republicanos y que los independientes, los cuales tienden a sostener actitudes negativas, no se trata de que los Republicanos sean anti-ciencia, sino que los Demócratas tienen actitudes marcadamente positivas frente a la ciencia (Blank y Shaw, 2015). Sobre estos tres puntos clave, se ha considerado otra variable relevante, que es iv) **el nivel educativo alcanzado** y **la inteligencia verbal**, que toma en cuenta la educación como un factor estructural y decisivo en el proceso de comprensión e incorporación del saber científico (Motta, 2018). El estudiod e Motta (2018) es particularmente importante, pues pone en tela de juicio si realmente la identificación ideológica y simpatía política son factores determinantes, *per se*, en las actitudes científicas de las personas; y si no están, en cambio, mediadas por el nivel educativo y las facultades liguisticas y cognitivas. Entre otras variables de control que se han incluido en los estudios sobre el anti-cientificismo están las de carácter igualmente ‘estructural’, como **el nivel de ingresos**, **la edad**, **el sexo**, y **la etnicidad**. 
+
+##### **Selección de las variables**
+
+##### **Variable Dependiente (VD)**
+
+**Nivel de Acitudes frente a la Ciencia & Tecnología (C&T)**
+
+Es una variable numérica discreta que tiene un rango de valores posibles que van del 6-60, donde 6 es una actitud *negativa* y 60 *positiva* frente a la C&T. Yi es un índice compuesto por la sumatoria de los puntajes de 6 variables numéricas (Q158 – Q163) en el apartado *Science & Technology* del WVS 2017-2020. Las variables utilizadas para la construcción de Yi consisten en una serie de proposiciones, con un puntaje posible del 1-10, según una escala en donde 1 es *completamente en desacuerdo* y 10 es *completamente de acuerdo*. Para las regresiones y pruebas de hipótesis que se realizarán Yi se trabajará como una variable numérica. Sin embargo, para la sección de estadísticos descriptivos se ha optado por trabjar Yi como una variable *ordinal*, segmentada en cinco categorías de Actitudes frente a la C&T, según *actitudes negativas*, *medianamente negativas*, *neutrales*, *medianamente positivas*, y *positivas*, en intervalos de [6;16.8], ]16.8;27.6]; ]27.6;38.4], ]38.4;49.2], ]49.2;60] puntos cada uno. *Para la creación del Índice se invirtieron los valores de las preguntas Q158, Q159 y Q160, de modo que la escala de medición de actitudes frente a la ciencia y tecnología tenga la misma dirección. 
+
+##### **Variables Independientes (VI): variables del *Reasoning driven by directional goals* **
+
+**Nivel de religiosidad**
+
+Es una variable numérica discreta que tiene un rango de valores posibles que van del 3-25, donde 3 es un nivel *bajo* de religiosidad y 25 un nivel *alto*. La variable está compuesta  por la sumatoria de los puntajes de 3 variables numéricas (Q164, Q171 y Q172) en el apartado *Religious Values*  del WVS 2017-2020, sobre el nivel de creencia y frecuencia de prácticas religiosas.
+
+**Nivel de identificación ideológica**
+
+Es una variable numérica discreta que tiene un rango de valores posibles que van del 5-50, donde 5 es *Conservador*  y 50 *Liberal*. La variable está compuesta  por la sumatoria de los puntajes de 5 variables numéricas (Q182, Q184, Q185, Q186 y Q193) en el apartado *Ethical Values and Norms*  del WVS 2017-2020. Las preguntas consisten en la justificación de ciertas prácticas con una carga ideológica-moral (homosexualidad, aborto, divorcio, sexo antes del matrimonio y sexo casual), las cuales tiene un puntaje posible del 1-10 según una escala en donde 1 es *Nunca justificables* y 10 es *Siempre justificables*. 
+
+**Postura política**
+
+Es una variable numérica discreta que viene de la pregunta Q240 en el apartado *Political Cultura & Political Regimes*  del WVS 2017-2020: *'In political matters, people talk of "the left" and "the right." How would you place your views on this scale, generally speaking?'*, la cual tiene un puntaje posible del 1-10 según una escala donde 1 es *Izquierda* y 10 es *Derecha*. 
+
+##### **Variables de Control (VC): variables de corte 'estructural' **
+
+**Nivel de educación alcanzado** 
+
+Es una variable categórica ordinal que viene de la pregunta Q275 del WVS 2017-2020: *'What is the highest educational level that you have attained?'*. Para el presente trabajo hemos recodificado la variable en 5 categorías según el mayor Nivel de educación alcanzado, *Sin Educación*, *Primaria*, *Secundaria*, *Superior* y *Posgrado*
+
+**Percepción del nivel de ingresos** 
+
+Es una variable numérica discreta que viene de la pregunta Q288 del WVS 2017-2020: *'an income scale on which 1 indicates the lowest income group and 10 the highest income group in your country. We would like to know in what group your household is.'*, la cual tiene un puntaje posible del 1-10, según una escala donde 1 es el *nivel más bajo* y 10 es el *nivel más alto*-
+
+**Edad** 
+
+Es una variable numérica discreta que viene de la pregunta Q262 del WVS 2017-2020: *'This means you are _ years old'*, la cual tiene valores que van desde los 18 años (mayoría de edad).
+
+**Sexo** 
+
+Es una variable dicotómica que viene de la pregunta Q260 del WVS 2017-2020: *'Respondent’s sex (Code respondent’s sex by observation, don’t ask about it!):'*, la cual tiene valores de *Masculino* y *Femenino*.
+
+**Ambito** 
+
+Es una variable dicotómica que viene de la pregunta H1 del WVS 2017-2020: *'Settlement type'*, la cual tiene valores de *Urbano* y *Rural*.
+
+#### **2) Modelo**
+
+Los 2 Modelos que utilizaré para analizar los determinantes de las actitudes de las personas frente a la ciencia y tecnología son los siguientes: 
+
+**Modelo 1**
+
+$$
+Y_i = B_0 + B_1*Religion + B_2*Ideologia + B_3*Politica +\\ B_4*NivelEducativo + 
+B_5*NivelIngresos + B_6*Edad + B_7*Edad^2 + B_8*Sexo + B_9*Ambito + e_i
+$$
+**Modelo 2**
+
+$$
+Y_i = B_0 + B_1*Religion + B_2*Ideologia + B_3*Politica +\\ B_4*NivelEducativo + 
+B_5*NivelIngresos + B_6*Edad + B_7*Edad^2 + B_8*Sexo + B_9*Ambito \\  B_10(Ideologia*NivelEducativo) + B_11(Politica*NivelEducativo) + e_i
+$$
+**Interacciones**
+
+Para el Modelo 2 he planteados dos interacciones: de la VC Nivel educativo alcanzado respecto de las VI Nivel de identificación ideológica y Postura política. El propósito de ello es analizar cuál es influencia que tiene la VC Nivel educativo alcanzado respecto de las VI Nivel de identificación ideológica y Postura política en el efecto que estas VI tienen sobre la VD, Nivel de  Actitudes frente a la C&T. 
+
+#####  **Hipótesis**
+
+* **H1:** Las personas con un mayor nivel de religiosidad van a tener actitudes más negativas frente a la C&T.
+* **H2:** Las personas con un mayor nivel identificación ideológica *liberal* van a tener actitudes más positivas frente a la C&T. 
+* **H3:** Las personas que tengan mayor afinidad con una postura política de *derecha*  van a tener actitudes más negativas frente a la C&T. 
+* **H4:** Las personas que tengan un *mayor* nivel de educación alcanzado van a tener actitudes más positivas frente a la C&T. 
++ **H5:** Las personas que perciban que pertenecen a un grupo de *mayor* nivel de ingresos van a tener actitudes más positivas frente a la C&T. 
+* **H6:** Las personas más jóvenes van a tener actitudes más positivas frente a la C&T, mientras que las personas de mayor edad van a tener actitudes más negativas frente a la C&T. 
+* **H7:** Los *Hombres* van a tener actitudes más positivas frente a la C&T. 
+* **H8:** Las personas que viven en un ámbito *Urbano* van a tener actitudes más positivas frente a la C&T.
+
+* **H9:** La interacción entre la VC Nivel educativo y la VI Nivel de identificación ideológica *mitiga* el efecto de la segunda sobre la VD. 
+* **H10:** La interacción entre la VC Nivel educativo y la VI Postura política *mitiga* el efecto de la segunda sobre la VD.
+
+#### **3) Datos**
+
+**Base de datos utilizada:** 2017 -2021 WORLD VALUES SURVEY WAVE 7 MASTER SURVEY QUESTIONNAIRE. R Data file: WVS_Cross-National_Wave_7_Rdata_v. 
+
+**Número de observaciones:** 84638
+
+* **Perú:** 1400
+* **EEUU:** 2596
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(foreign)
+library(writexl)
+library(dplyr)
+library(vioplot)
+library(ggplot2)
+library(REndo)
+library(kableExtra) 
+library(doBy)
+library(rio)
+library(lmtest)
+library(nortest)
+library(margins)
+library(jtools)
+library(sandwich)
+knitr::opts_chunk$set(echo = FALSE)
+library(stargazer)
+```
+
+```{r warning=FALSE, include=FALSE}
+load("WVS_Cross-National_Wave_7_Rdata_v3_0.rdata")
+WVS <- `WVS_Cross-National_Wave_7_R_v3_0` %>% select(A_YEAR, B_COUNTRY, Q158, Q159, Q160, Q161, Q162, Q163, Q164, Q171, Q172, Q182, Q184, Q185, Q186, Q193, Q240, Q275, Q288, Q262, Q260, H_URBRURAL)
+
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+##4) Recodificación de variables
+
+#Índice Science and Technology
+#Q158. Science and technology are making our lives healthier, easier, and more comfortable.
+WVS$Q158 <- as.numeric(recode(WVS$Q158, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+#Q159. Because of science and technology, there will be more opportunities for the next generation.
+WVS$Q159 <- as.numeric(recode(WVS$Q159, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+#Q160. We depend too much on science and not enough on faith.
+WVS$Q160 <- as.numeric(recode(WVS$Q160, "-2"="NA", "-1"="NA", "1"="10", "2"="9", "3"="8","4"="7","5"="6","6"="5","7"="4","8"="3","9"="2","10"="1"))
+#Q161. One of the bad effects of science is that it breaks down people’s ideas of right and wrong.
+WVS$Q161 <- as.numeric(recode(WVS$Q161, "-2"="NA", "-1"="NA", "1"="10", "2"="9", "3"="8","4"="7","5"="6","6"="5","7"="4","8"="3","9"="2","10"="1"))
+#Q162. It is not important for me to know about science in my daily life.
+WVS$Q162 <- as.numeric(recode(WVS$Q162, "-2"="NA", "-1"="NA", "1"="10", "2"="9", "3"="8","4"="7","5"="6","6"="5","7"="4","8"="3","9"="2","10"="1"))
+#Q163. All things considered, would you say that the world is better off, or worse off, because of science and technology?
+WVS$Q163 <- as.numeric(recode(WVS$Q163, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+
+ActitudesCyT<- WVS[, c(3:8)]
+ActitudesCyT <- rowSums(ActitudesCyT)
+WVS$ActitudesCyT=rowSums(WVS[,c(3:8)])
+WVS$CategoriasCyT <- cut(WVS$ActitudesCyT, breaks=c(6,16.8,27.6,38.4,49.2,60), 
+                           labels= c("Negativa", "Medianamente negativa","Neutral", "Medianamente positiva", "Positiva"), na.rm = TRUE) 
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+WVS$Dios <- as.numeric(recode(WVS$Q164, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+WVS$Ritos <- as.numeric(recode(WVS$Q171, "-5"="NA", "-2"="NA", "-1"="NA", 
+  "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7"))
+WVS$Rezo <- as.numeric(recode(WVS$Q172, "-5"="NA", "-2"="NA", "-1"="NA", 
+  "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8"))
+WVS$Homosexualidad <- as.numeric(recode(WVS$Q182, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+WVS$Aborto <- as.numeric(recode(WVS$Q184, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+WVS$Divorcio <- as.numeric(recode(WVS$Q185, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+WVS$SexoMatrimonio <- as.numeric(recode(WVS$Q186, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+WVS$SexoCasual <- as.numeric(recode(WVS$Q193, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+WVS$Politica <- as.numeric(recode(WVS$Q240, "-2"="NA", "-1"="NA", "1"="1", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+
+WVS <- WVS %>% filter(Q275 == 0 | Q275 == 1| Q275 == 2| Q275 == 3| Q275 == 4| Q275 == 5| Q275 == 6| Q275 == 7| Q275 == 8)
+WVS$NivelEducativo <- as.factor(recode(WVS$Q275, "0"="0.Sin Educacion", "1"="1.Primaria", "2"="2.Secundaria","3"="2.Secundaria","4"="3.Superior","5"="3.Superior","6"="3.Superior","7"="4.Posgrado","8"="4.Posgrado"))
+
+WVS$NivelIngresos <- as.numeric(recode(WVS$Q288, "-2"="NA", "-1"="NA", "1"="", "2"="2", "3"="3","4"="4","5"="5","6"="6","7"="7","8"="8","9"="9","10"="10"))
+
+WVS$Edad <- as.numeric(WVS$Q262)
+WVS$Edad2 <- WVS$Edad^2
+
+WVS <- WVS %>% filter(Q260 == 1| Q260 == 2)
+WVS$Sexo <- as.factor(recode(WVS$Q260, "-5"="NA", "-2"="NA", "-1"="NA", "1"="Masculino", "2"="Femenino"))
+
+WVS <- WVS %>% filter(H_URBRURAL == 1| H_URBRURAL == 2)
+WVS$Ambito <- as.factor(recode(WVS$H_URBRURAL, "-5"="NA", "1"="Urbano", "2"="Rural"))
+
+WVS$Religion <- (WVS$Dios)+(WVS$Ritos)+(WVS$Rezo)
+WVS$Ideologia <- (WVS$Homosexualidad)+(WVS$Aborto)+(WVS$SexoCasual)+(WVS$Divorcio)+(WVS$SexoMatrimonio)
+
+WVS <- rename(WVS, Pais = B_COUNTRY)
+WVS$Pais <- recode(WVS$Pais, "604" = "Peru",  "840" = "EEUU")
+
+```
+
+```{r warning=FALSE, include=FALSE}
+EEUU <- subset(WVS, Pais == "EEUU")
+Peru <- subset(WVS, Pais == "Peru")
+PeruEEUU <- subset(WVS, Pais == "Peru" | Pais == "EEUU")
+```
+
+#### **5) Estadísticos descriptivos**
+
+**VD: Nivel de Actitudes frente a la C&T**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+CyT.Desc <- summaryBy(ActitudesCyT ~ Pais, data = PeruEEUU,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = median(x, na.rm = T),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = min(x, na.rm = T),
+Maximo = max(x, na.rm = T),
+PrimerCuartil = quantile(x, probs = c(.25), na.rm = T),
+TercerCuartil = quantile(x, probs = c(.75), na.rm = T))})
+
+CyT.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El nivel de religiosidad   tiene una escala de 3-24"),
+  title_format = "bold")
+
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaCyT <- round((prop.table(table(PeruEEUU$CategoriasCyT, PeruEEUU$Pais),2)*100), digits = 1)
+
+TablaCyT %>%
+kable(caption = "Frecuencia relativa de los niveles de Actitud frente a la ciencia y tecnología según país (%)", align = "cc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  add_header_above(c("Grupos" = 1, "País" =2), bold = T, align = "c") %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El nivel de religiosidad tiene una escala de 3-24"),
+  title_format = "bold")
+
+```
+</div>
+
+**Análisis:** La VD Nivel de  Actitudes frente a la C&T, para el caso de EEUU, tiene una media de 42.52 puntos, una mediana de 42 puntos y una desviación estándar de 10.15 puntos. Para el caso de Peru, tiene una media de 33.83 puntos, una mediana de 34 puntos y una desviación estándar de 7.48 puntos. En ambos países el valor mínimo es de 6 puntos y el máximo de 60 puntos, y EEUU tiene un rango intercuartílico de 14 puntos mientras que Perú de 8 puntos. 
+
+Sobre la frecuencia relativa de las categorías del Nivel de  Actitudes frente a la C&T, vemos que en EEUU la categoría con más casos es la *neutral* (33%), lo mismo sucede para Perú (62.8%). No obstante, en EEUU la catogría *positiva* tiene 28.7% de casos, mientras que en Perú 1.9%. Asimismo, mientras en EEUU las categorías *negativa* y *medianamente negativa* tiene 0.4% y 5.3% respectivamente, en Perú 2.9% y 11.3% respectivamente. Podemos percibir que en EEUU hay, en líneas generales, actidudes más positivas frente a la C&T. 
+
+
+#### **VI: Variables independientes del *Reasoning driven by directional goals* **
+
+**Nivel de religiosidad**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaReligion.Desc <- summaryBy(Religion ~ Pais, data = PeruEEUU,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = median(x, na.rm = T),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = min(x, na.rm = T),
+Maximo = max(x, na.rm = T),
+PrimerCuartil = quantile(x, probs = c(.25), na.rm = T),
+TercerCuartil = quantile(x, probs = c(.75), na.rm = T))})
+
+TablaReligion.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El Nivel de religiosidad   tiene una escala de 3-24"),
+  title_format = "bold")
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+
+PeruEEUU %>% 
+  filter(Pais == "EEUU") %>%
+  ggplot(aes(x=Religion))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 20)+
+  theme_bw() +
+  labs(x="Nivel de Religión (3-25)", y= "Número de casos", 
+       title="Distribución de casos del Nivel de religiosidad en EEUU",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PeruEEUU %>% 
+  filter(Pais == "Peru") %>%
+  ggplot(aes(x=Religion))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 20)+
+  theme_bw() +
+  labs(x="Nivel de Religión (3-25)", y="Número de casos", 
+       title="Distribución de casos del Nivel de religiosidad en Perú",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaReligion <- PeruEEUU %>%
+  select(CategoriasCyT, Religion, Pais) %>%
+  drop_na(CategoriasCyT, Religion) %>% 
+  group_by(Pais) %>%
+  mutate(N=n())  %>%
+  group_by(Pais, CategoriasCyT) %>%
+  summarise(promedio = round(mean(Religion), digits = 2)) %>%
+  arrange(Pais)
+
+TablaReligion <- pivot_wider(TablaReligion, names_from = "Pais", values_from = "promedio")
+
+  TablaReligion %>% 
+  kable(caption = "Nivel promedio de religiosidad, según el nivel de actitud frente a la ciencia y tecnología (2017-2020), Perú y EEUU (%)", align = "lccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  add_header_above(c("Grupos" = 1, "País" =2), bold = T, align = "c") %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El nivel de religiosidad tiene una escala de 3-25"),
+  title_format = "bold")
+  
+```
+</div>
+
+**Análisis:** La VI Nivel de religiosidad, para el caso de EEUU, tiene una media de 15.39 puntos, una mediana de 15 puntos y una desviación estándar de 2.93 puntos. Para el caso de Peru, tiene una media de 15.9 puntos, una mediana de 15 puntos y una desviación estándar de 3.23 puntos. En EEUU el valor mínimo es de 5 puntos, el valor máximo de 25 puntos, y tiene un rango intercuartílico de 4 puntos. En Perú el valor mínimo es de 3 puntos, el valor máximo de 25 puntos, y tiene un rango intercuartílico de 4 puntos. La distribución de la VI, en ambos países parece que siguiera una distribución normal, aunque con ciertos casos comparativamente más altos. 
+
+Sobre el Nivel promedio de religiosidad, según el nivel de actitud frente a la C&T tenemos, para EEUU, que conforme la actitud frente a la C&T se hace más positiva, aumenta el nivel de religiosidad: la categoría *negativa* tiene un promedio de religiosidad de 14.3 puntos, mientras que la *positiva* de 15.54 puntos. Para Perú no podríamos decir que haya un patrón claro: la categoría *negativa* tiene un promedio de religiosidad de 16.06 puntos, la *neutral* baja a 15.94 puntos, y la *positiva* sube a 16.29 puntos. Con los datos sobre el nivel de religiosidad no podríamos decir que haya una relación notoria entre la religión y el nivel de actitud frente a la C&T.
+
+**Nivel de identificación ideológica (Conservador - Liberal)**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaIdeologia.Desc <- summaryBy(Ideologia ~ Pais, data = PeruEEUU,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = median(x, na.rm = T),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = min(x, na.rm = T),
+Maximo = max(x, na.rm = T),
+PrimerCuartil = quantile(x, probs = c(.25), na.rm = T),
+TercerCuartil = quantile(x, probs = c(.75), na.rm = T))})
+
+
+TablaIdeologia.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El Nivel de identificación ideológica tiene una escala donde 5 es 'Conservador' y 50 es 'Liberal'"),
+  title_format = "bold")
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PeruEEUU %>% 
+  filter(Pais == "EEUU") %>%
+  ggplot(aes(x=Ideologia))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 20)+
+  theme_bw() +
+  labs(x="Nivel de identificación ideológica (Conservador 5 - 50 Liberal)", y= "Número de casos", 
+       title="Distribución de casos del Nivel de identificación ideológica en EEUU",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PeruEEUU %>% 
+  filter(Pais == "Peru") %>%
+  ggplot(aes(x=Ideologia))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 20)+
+  theme_bw() +
+  labs(x="Nivel de identificación ideológica (Conservador 5 - 50 Liberal)", y= "Número de casos", 
+       title="Distribución de casos del Nivel de identificación ideológica en Perú",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaIdeologia <- PeruEEUU %>%
+  select(CategoriasCyT, Ideologia, Pais) %>%
+  drop_na(CategoriasCyT, Ideologia) %>% 
+  group_by(Pais) %>%
+  mutate(N=n())  %>%
+  group_by(Pais, CategoriasCyT) %>%
+  summarise(promedio = round(mean(Ideologia), digits = 2)) %>%
+  arrange(Pais)
+
+TablaIdeologia <- pivot_wider(TablaIdeologia, names_from = "Pais", values_from = "promedio")
+
+  TablaIdeologia %>% 
+  kable(caption = "Nivel de identificación ideológica promedio, según el nivel de actitud frente a la ciencia y tecnología (2017-2020), Perú y EEUU (%)", align = "lccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  add_header_above(c("Grupos" = 1, "País" =2), bold = T, align = "c") %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "(Conservador 5 - 50 Liberal)"),
+  title_format = "bold")
+```
+</div>
+
+**Análisis:** La VI Nivel de identificación ideológica, para el caso de EEUU, tiene una media de 30.76 puntos, una mediana de 31 puntos y una desviación estándar de 12.14 puntos. Para el caso de Peru, tiene una media de 16.44 puntos, una mediana de 15 puntos y una desviación estándar de 9.84 puntos. En ambos países el valor mínimo es de 5 puntos y el máximo de 50 puntos, y EEUU tiene un rango intercuartílico de 19 puntos mientras que Perú de 15 puntos. La distribución de la VI en EEUU, a juzgar por el histograma, tiene una distribucón con sesgo negativo, además de que la media es menor a la mediana: aquí los casos se concentran en un Nivel de identificación ideológico más *liberal*. Por el contrario, La distribución de la VI en Perú, a juzgar por el histograma, tiene una distribucón con sesgo positivo, además de que la media es mayor a la mediana: aquí los casos se concentran en un Nivel de identificación ideológico bastante más *conservador*
+
+Sobre el Nivel promedio de identificación ideológica, según el nivel de actitud frente a la C&T tenemos, para EEUU, que conforme la actitud frente a la C&T se hace más positiva, aumenta el nivel de identificación ideológica con un valor liberal: la categoría *negativa* tiene un promedio de identificación ideológica de 19.8 puntos, mientras que la *positiva* de 38.25 puntos. En Perú hay una tendencia similar, sin embargo, no tan notoria: la categoría *negativa* tiene un promedio de identificación ideológica de 15.06 puntos, mientras que la *positiva* de 19.41 puntos. Podemos percibir que Perú es un país comparativamente más conservador que EEUU. Asimismo, vemos que mientras el nivel de actitud frente a la C&T es más positivo, la identificación ideológica se hace más liberal. 
+
+**Postura política**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaPolitica.Desc <- summaryBy(Politica ~ Pais, data = PeruEEUU,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = median(x, na.rm = T),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = min(x, na.rm = T),
+Maximo = max(x, na.rm = T),
+PrimerCuartil = quantile(x, probs = c(.25), na.rm = T),
+TercerCuartil = quantile(x, probs = c(.75), na.rm = T))})
+
+
+TablaPolitica.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El nivel de postura política tiene una escala en donde 1 es 'Izquierda' y 10 'Derecha'"),
+  title_format = "bold")
+
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PeruEEUU %>% 
+  filter(Pais == "EEUU") %>%
+  ggplot(aes(x=Politica))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 10)+
+  theme_bw() +
+  labs(x="Postura política (Izquierda 1 - 10 Derecha)", y= "Número de casos", 
+       title="Distribución de casos de la Postura política en EEUU",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PeruEEUU %>% 
+  filter(Pais == "Peru") %>%
+  ggplot(aes(x=Politica))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 10)+
+  theme_bw() +
+  labs(x="Postura política (Izquierda 1 - 10 Derecha)", y= "Número de casos", 
+       title="Distribución de casos de la Postura política en Perú",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+</div>
+
+
+<div align="center">
+```{r warning=FALSE}
+
+TablaPolitica <- PeruEEUU %>%
+  select(CategoriasCyT, Politica, Pais) %>%
+  drop_na(CategoriasCyT, Politica) %>% 
+  group_by(Pais) %>%
+  mutate(N=n())  %>%
+  group_by(Pais, CategoriasCyT) %>%
+  summarise(promedio = round(mean(Politica), digits = 2)) %>%
+  arrange(Pais)
+
+TablaPolitica <- pivot_wider(TablaPolitica, names_from = "Pais", values_from = "promedio")
+
+  TablaPolitica %>% 
+  kable(caption = "Postura política promedio, por nivel de actitud frente a la ciencia y tecnología, según país, 2017-2020 (%)", align = "lccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  add_header_above(c("Grupos" = 1, "País" =2), bold = T, align = "c") %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "Izquierda 1 - 10 Derecha"),
+  title_format = "bold")
+```
+</div>
+
+**Análisis:** La VI Postura política, para el caso de EEUU, tiene una media de 5.21 puntos, una mediana de 5 puntos y una desviación estándar de 2.52 puntos. Para el caso de Peru, tiene una media de 6.1 puntos, una mediana de 5 puntos y una desviación estándar de 2.27 puntos. En ambos países el valor mínimo es de 1 punto y el máximo de 10 puntos, y EEUU tiene un rango intercuartílico de 4 puntos mientras que Perú 3 puntos. La distribución de la VI, en ambos países, parece que siguiera una distribución normal, aunque con ciertos casos comparativamente más altos (de derecha) en Perú.
+
+Sobre el Nivel promedio de Postura política, según el nivel de actitud frente a la C&T tenemos, para EEUU, que conforme la actitud frente a la C&T se hace más positiva, la postura política se torna más de izquierda: la categoría *negativa* tiene un promedio de postura política de 5.67 puntos, mientras que la *positiva* de 4.05 puntos. En Perú la tendencia es opuesta, conforme la actitud frente a la C&T se hace más positiva, la postura política se torna más de derecha: la categoría *negativa* tiene un promedio de postura de 5.75 puntos, mientras que la *positiva* de 7.1 puntos. Este caso es bastante particular, pues el nivel de actitud frente a la C&T tiene tendencias diferentes respecto a la postura política. 
+
+##### **VC: Variables de corte 'estructural' **
+
+**Nivel de educación alcanzado** 
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaNivelEducativo.Desc <- round((prop.table(table(PeruEEUU$NivelEducativo, PeruEEUU$Pais),2)*100), digits = 1)
+
+TablaNivelEducativo.Desc %>%
+kable(caption = "Frecuencia relativa de los Niveles de Educación alcanzados según país (%)", align = "cc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  add_header_above(c("Nivel educativo" = 1, "País" =2), bold = T, align = "c") %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia"),
+  title_format = "bold")
+
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaNivelEducativo.EEUU <- round((prop.table(table(EEUU$CategoriasCyT, EEUU$NivelEducativo),2)*100), digits = 2)
+
+TablaNivelEducativo.EEUU %>% 
+kable(caption = "Distribución relativa del Nivel educativo alcanzado, por nivel de actitud frente a la ciencia y tecnología, EEUU, 2017-2020 (%)", align = "ccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia"),
+  title_format = "bold")
+
+TablaNivelEducativo.Peru <- round((prop.table(table(Peru$CategoriasCyT, Peru$NivelEducativo),2)*100), digits = 2)
+
+TablaNivelEducativo.Peru %>% 
+kable(caption = "Distribución relativa del Nivel educativo alcanzado, por nivel de actitud frente a la ciencia y tecnología, Perú, 2017-2020 (%)", align = "ccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia"),
+  title_format = "bold")
+```
+</div>
+
+**Análisis:** Para la VC Nivel de educación alcanzado, sobre la frecuencia relativa de las categorías, vemos que en EEUU la categorías con más casos es *Superior* (59.6%), lo mismo sucede para Perú (42.6%). En EEUU la catogría *Secundaria* tiene 23.4% de casos mientras que en Perú 39.9%. Ahora bien, mientras en EEUU las categorías *Sin educación* y *Primaria* tienen 0.4% y 0% respectivamente, en Perú tienen 7.6% y 8.6% respectivamente. Asimismo, la categoría *Posgrado* en EEUU tiene el 16.6% de casos, mientras que en Perú el 1.2%. Podemos detectar que en EEUU la población alcanza, en promedio, un nivel de educación más alto que en Perú: en EEUU el 99.6% de casos tiene, como mínimo, educación secundaria, mientras que en Perú la cifra se reduce a 83.7%. 
+
+Sobre el Nivel de educación alcanzado, según el nivel de actitud frente a la C&T tenemos, para EEUU, que mientras mayor sea el nivel de educación alcanzado las actitudes frente a la C&T son más positivas: en la categoría *Superior* y *Posgrado* la mayoría de casos de actitudes frente a la C&T se concentran en actitudes *medianmente positivas* y *positivas*. En la categoría *Secundaria*, no obstante, la mayoría de casos de actitudes frente a la C&T se concentran en actitudes *neutrales*. En Perú no hay una tendencia clara, pues en todos los niveles de educación alcanzados la categoría de actitudes frente a la C&T que más casos tiene es la de *neutral*. En Perú no podríamos distinguir una tendencia clara al respecto. 
+
+**Percepción del nivel de ingresos** 
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaNivelIngresos.Desc <- summaryBy(NivelIngresos ~ Pais, data = PeruEEUU,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = median(x, na.rm = T),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = min(x, na.rm = T),
+Maximo = max(x, na.rm = T),
+PrimerCuartil = quantile(x, probs = c(.25), na.rm = T),
+TercerCuartil = quantile(x, probs = c(.75), na.rm = T))})
+
+
+TablaNivelIngresos.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "La percepción del nivel de ingresos tiene una escala donde 1 es 'Ingresos más bajos' y 10 es 'Ingresos más altos'"),
+  title_format = "bold")
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PeruEEUU %>% 
+  filter(Pais == "EEUU") %>%
+  ggplot(aes(x=NivelIngresos))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 10)+
+  theme_bw() +
+  labs(x="Percepción del nivel de ingresos (1 - 10)", y= "Número de casos", 
+       title="Distribución de casos de la Percepción del nivel de ingresos en EEUU",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PeruEEUU %>% 
+  filter(Pais == "Peru") %>%
+  ggplot(aes(x=NivelIngresos))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 10)+
+  theme_bw() +
+  labs(x="Percepción del nivel de ingresos (1 - 10)", y= "Número de casos", 
+       title="Distribución de casos de la Percepción del nivel de ingresos en Perú",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+</div>
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaNivelIngresos <- PeruEEUU %>%
+  select(CategoriasCyT, NivelIngresos, Pais) %>%
+  drop_na(CategoriasCyT, NivelIngresos) %>% 
+  group_by(Pais) %>%
+  mutate(N=n())  %>%
+  group_by(Pais, CategoriasCyT) %>%
+  summarise(promedio = round(mean(NivelIngresos), digits = 2)) %>%
+  arrange(Pais)
+
+TablaNivelIngresos <- pivot_wider(TablaNivelIngresos, names_from = "Pais", values_from = "promedio")
+
+  TablaNivelIngresos %>% 
+  kable(caption = "Nivel de ingresos promedio percibido, por nivel de actitud frente a la ciencia y tecnología, según país, 2017-2020 (%)", align = "lccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  add_header_above(c("Grupos" = 1, "País" =2), bold = T, align = "c") %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "Nivel de ingresos (1 - 10)"),
+  title_format = "bold")
+```
+</div>
+
+**Análisis:** La VC Nivel de ingresos percibido, para el caso de EEUU, tiene una media de 5.25 puntos, una mediana de 5 puntos y una desviación estándar de 1.69 puntos. Para el caso de Peru, tiene una media de 5.16 puntos, una mediana de 5 puntos y una desviación estándar de 1.74 puntos. En ambos países el valor mínimo es de 2 puntos y el máximo de 10 puntos, y ambos tienen un rango intercuartílico de 2 puntos. La distribución de la VC, en ambos países, por el histograma, parece que siguiera una distribución normal.
+
+Sobre el Nivel promedio de ingresos percibido, según el nivel de actitud frente a la C&T tenemos, para EEUU, que conforme la actitud frente a la C&T se hace más positiva, el Nivel promedio de ingresos percibido aumenta: la categoría *negativa* tiene un promedio de ingresos percibido de 4.75 puntos, mientras que la *positiva* de 5.38 puntos. En Perú la tendencia es bastante similar, conforme la actitud frente a la C&T se hace más positiva, el Nivel promedio de ingresos percibido aumenta: la categoría *negativa* tiene un promedio de ingresos percibido de 4.32 puntos, mientras que la *positiva* de 5.64 puntos. Si bien no es una tendencia tan notoria, sí podemos percibir una relación positiva entre la actitud frente a la C&T y el Nivel promedio de ingresos percibido.
+
+**Edad** 
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaEdad.Desc <- summaryBy(Edad ~ Pais, data = PeruEEUU,
+FUN = function(x) {c(Media = round(mean(x, na.rm = T), digits = 2), 
+Md = median(x, na.rm = T),
+Desv = round(sd(x, na.rm = T), digits = 2), 
+Minimo = min(x, na.rm = T),
+Maximo = max(x, na.rm = T),
+PrimerCuartil = quantile(x, probs = c(.25), na.rm = T),
+TercerCuartil = quantile(x, probs = c(.75), na.rm = T))})
+
+
+TablaEdad.Desc %>%
+  kable(align = "lcccccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El nivel de religiosidad   tiene una escala de 3-24"),
+  title_format = "bold")
+
+```
+</div>
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+PeruEEUU %>% 
+  filter(Pais == "EEUU") %>%
+  ggplot(aes(x=Edad))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 10)+
+  theme_bw() +
+  labs(x="Edad", y= "Número de casos", 
+       title="Distribución de casos de la Edad en EEUU",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+PeruEEUU %>% 
+  filter(Pais == "Peru") %>%
+  ggplot(aes(x=Edad))+
+  geom_histogram(color="black", lwd=0.5, fill="skyblue", position = "identity", alpha=0.4, bins = 10)+
+  theme_bw() +
+  labs(x="Edad", y= "Número de casos", 
+       title="Distribución de casos de la Edad en Perú",
+       caption = "Fuente: WVS (2017-2020) - Tabla de elaboración propia")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+</div>
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaEdad <- PeruEEUU %>%
+  select(CategoriasCyT, Edad, Pais) %>%
+  drop_na(CategoriasCyT, Edad) %>% 
+  group_by(Pais) %>%
+  mutate(N=n())  %>%
+  group_by(Pais, CategoriasCyT) %>%
+  summarise(promedio = round(mean(Edad), digits = 2)) %>%
+  arrange(Pais)
+
+TablaEdad <- pivot_wider(TablaEdad, names_from = "Pais", values_from = "promedio")
+
+  TablaEdad %>% 
+  kable(caption = "Edad promedio, por nivel de actitud frente a la ciencia y tecnología, según país, 2017-2020 (%)", align = "lccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  add_header_above(c("Grupos" = 1, "País" =2), bold = T, align = "c") %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia"),
+  title_format = "bold")
+
+```
+</div>
+
+**Análisis:** La VC Edad, para el caso de EEUU, tiene una media de 43.51 años, una mediana de 41 puntos y una desviación estándar de 16.31 años. Para el caso de Peru, tiene una media de 40.16 años, una mediana de 38 años y una desviación estándar de 15.54 años. En ambos países el valor mínimo es de 18 años, en EEUU el valor máximo es de 90 años y tiene una rango intercuartílico de 26 años, y en Perú el valor máximo es de 86 años y tiene una rango intercuartílico de 24 años. La distribución de la VC, en ambos países, por el histograma, la media y la mediana, parece que siguiera una distribución con sesgo positivo.
+
+
+Sobre la Edad, según el nivel de actitud frente a la C&T tenemos, para EEUU, que no hay una tendencia clara: la categoría *negativa* tiene un promedio de Edad de 48 años, la *neutral* tiene un promedio de Edad de 42.42 años, mientras que la *positiva* de 42.78 años. En Perú, en cambio, sí hay una tendencia clara, conforme la actitud frente a la C&T se hace más positiva, el Nivel promedio de Edad decrece: la categoría *negativa* tiene un promedio de edad de 45.03 años, mientras que la *positiva* de 33.17 años. Si bien bien para el caso de EEUU no hay una relación tan notoria entre la Edad y la actitud frente a la C&T, para el caso de Perú sí.
+
+**Sexo**
+
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaSexo.Desc <- round((prop.table(table(PeruEEUU$Sexo, PeruEEUU$Pais),2)*100), digits = 2)
+
+TablaSexo.Desc %>%
+  kable(caption = "Distribución relativa de Sexo, por país (%)", align = "ccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia", "El nivel de religiosidad   tiene una escala de 3-24"),
+  title_format = "bold")
+
+
+TablaSexo.EEUU <- round((prop.table(table(EEUU$CategoriasCyT, EEUU$Sexo),1)*100), digits = 2)
+
+TablaSexo.EEUU %>%
+kable(caption = "Distribución relativa de Sexo, por nivel de actitud frente a la ciencia y tecnología, EEUU, 2017-2020 (%)", align = "ccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia"),
+  title_format = "bold")
+
+TablaSexo.Peru <- round((prop.table(table(Peru$CategoriasCyT, Peru$Sexo),1)*100), digits = 2)
+
+TablaSexo.Peru %>%
+kable(caption = "Distribución relativa de Sexo, por nivel de actitud frente a la ciencia y tecnología, Peru, 2017-2020 (%)", align = "ccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia"),
+  title_format = "bold")
+
+
+```
+</div>
+
+**Análisis:** La VC Sexo, para el caso de EEUU y Perú, tiene una frecuencia similar. 
+
+Sobre la VC Sexo, según el nivel de actitud frente a la C&T tenemos, para EEUU, una tendencia clara, conforme la actitud frente a la C&T se hace más positiva, la frecuencia relativa de mujeres decrece notoriamente: la categoría *negativa* tiene una frecuencia relativa de mujeres de 70%, mientras que la *positiva* de 38.3%. En Perú, en cambio, no hay una tendencia clara: la categoría *negativa* tiene una frecuencia relativa de mujeres de 51.35%, la *medianamente neutral* tiene una frecuencia relativa de mujeres de 58.04%, mientras que la *positiva* 33.33%. Si bien para el caso de Perú no hay una relación tan notoria entre el Sexo y la actitud frente a la C&T, para el caso de EEUU sí.
+
+**Ámbito**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+TablaAmbito.Desc <- round((prop.table(table(PeruEEUU$Ambito, PeruEEUU$Pais),2)*100), digits = 2)
+
+TablaAmbito.Desc %>%
+  kable(caption = "Distribución relativa de Ámbito, por país (%)", align = "ccccc", format = "html") %>% 
+  kable_classic("basic",full_width=F) %>% 
+  row_spec(0, bold = T, align = "c") %>% 
+  footnote(number = c("Fuente: WVS (2017-2020) - Tabla de elaboración propia"),
+  title_format = "bold")
+
+
+```
+</div>
+
+**Análisis:** La VC Ámbito, para el caso de EEUU, tiene una frecuencia relativa de casos de ámbito urbano del 88.88%, mientras que el Perú de 76.79%. Si bien esta información no es precisa sobre el tema, nos indica que EEUU es un país más urbanizado que Perú.
+
+#### **6) Reporte y Análisis de los Modelos**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+
+MPeru.1 <- lm(ActitudesCyT ~ Religion + Ideologia + Politica + NivelEducativo + NivelIngresos + Edad + Edad2 + Sexo + Ambito, data = Peru)
+MPeru.2 <- lm(ActitudesCyT ~ Religion + Ideologia + Politica + NivelEducativo + NivelIngresos + Edad + Edad2 + Sexo + Ambito + Ideologia*NivelEducativo + Politica*NivelEducativo, data = Peru)
+
+MEEUU.1 <- lm(ActitudesCyT ~ Religion + Ideologia + Politica + NivelEducativo + NivelIngresos + Edad + Edad2 + Sexo + Ambito, data = EEUU)
+MEEUU.2 <- lm(ActitudesCyT ~ Religion + Ideologia + Politica + NivelEducativo + NivelIngresos + Edad + Edad2 + Sexo + Ambito + Ideologia*NivelEducativo + Politica*NivelEducativo, data = EEUU)
+```
+</div>
+
+#### **Modelos EEUU**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE, results='asis'}
+stargazer(MEEUU.1,MEEUU.2,
+          title = "Resultados de regresión", #Título
+          no.space = T, #Eliminar espacios en blanco de la opción default
+          style = "default",
+          type="html",
+          column.labels = c("s/ interacciones","c/ interacciones"), 
+          dep.var.labels = "Actitudes frente a la Ciencia y Tecnología", 
+          covariate.labels = c("Religion","Ideología","Postura política","Secundaria", "Superior", "Posgrado", "Ingresos", "Edad", "Edad2", "Hombre", "Urbano", "Ideología x Secundaria", "Ideología x Superior", "Ideología x Posgrado", "Política x Secundaria", "Política x Superior", "Política x Posgrado"),
+          ci.separator = "-",
+          digits = 2,
+          notes.align = "r")
+
+```
+</div>
+
+
+**Reporte de Modelos** 
+
+En el Modelo 1, encontramos que las VI Nivel de identificación ideológica p < 0.01, y Postura política p < 0.01, tienen una relación altamente significativa con la VD. Tenemos que por cada punto adicional en el Nivel de identificación ideológica, el Nivel de Actitud frente a la C&T aumenta en 0.33 puntos: *entre más liberal es una persona, esta tendrá, en promedio, Actitudes más positivas frente a la C&T*. También tenemos que por cada punto adicional en la escala de Postura política, el Nivel de Actitud frente a la C&T decrece en 0.6 puntos: *entre más de 'derecha' sea una persona, esta tendrá, en promedio, Actitudes más negativas frente a la C&T*. La significancia estadística de dichas VI, y el efecto marginal respectivo que tienen respecto del Nivel de Actitud frente a la C&T, coinciden con la literatura: las personas más liberales y más de 'izquierda' tienden a tener actidudes más positivas frente a la C&T, que sus pares conservadores y de 'derecha'.
+
+Asimismo, encontramos que en la VC Nivel de educación alcanzado, las categorías *Superior* p < 0.1, y *Posgrado* p < 0.05, también tienen una relación significativa con la VD, respectivamente. Encontramos que alcanzar el Nivel educativo *superior* aumenta el Nivel de Actitud frente a la C&T en 6.19 puntos (respecto de los que alcanzaron el nivel *Secundaria*); y que alcanzar el Nivel educativo *Posgrado* aumenta el Nivel de Actitud frente a la C&T en 7.45 puntos (respecto de los que alcanzaron el nivel *Superior*). Esto coincide con la literatura: las personas que han alcanzado un Nivel de Educativo más alto tienden a tener actidudes más positivas frente a la C&T. 
+
+No obstante, cuando vemos el Modelo 2 *con* interacciones, encontramos que las 3 variables que hemos comentado hasta ahora han perdido significancia estadística. En ambos modelos, sin embargo, encontramos que la VC Edad(^2) p < 0.05, y la VC Sexo p < 0.01, tienen una relación significativa con la VD. Encontramos que el hecho de ser *Hombre* aumenta, en promedio, el Nivel de Actitud frente a la C&T en 2.44 puntos para el Modelo 1, y en 2.45 puntos para el Modelo 2. Esto coincide con la literatura: los hombres tienden a tener actidudes  más positivas frente a la C&T. 
+
+Ambos Modelos tienen el mismo número de observaciones (2280), y el mismo R2 ajustado (0.31), por lo que los 2 Modelos explican el 31% de la varianza del Nivel de Actitud frente a la C&T. El ES del Modelo 2 (8.36) es apenas mayor que el del Modelo 1 (8.35). 
+
+**Discusión** 
+
+El hallazgo más relevante de ambos modelos es que la interacción de la VC Nivel educativo alcanzado *mitiga* el efecto que las VI Nivel de identificación ideológica y Postura política tienen sobre la VD. Es decir, que la relación entre las VI Nivel de identificación ideológica y Postura política y la VD *depende* del Nivel educativo alcanzado de la persona: el Nivel de identificación ideológica y Postura política no son, *per se*, determinantes del Nivel de Actitud frente a la C&T, sino que el posible efecto que podrían tener sobre la VD depende del nivel educativo. Este hallazgo coincide con la literatura (Motta, 2018): no se trata, entonces, de que los liberales y simpatizantes de izquierda tengan actitudes más positivas frente a la C&T por el hecho de su identificación ideológica o postura política. Lo que econtramos es que el Nivel de identificación ideológica y Postura política no son, por sí mismos, buenos predictores del Nivel de Actitud frente a la C&T si es que consideramos el nivel educativo: un liberal y un conservador , al igual que un simpatizante de izquierda como de derecha, pueden tener, en promedio, un Nivel de Actitud frente a la C&T igualmente positivo (o negativo) si es que consideramos su nivel educativo. 
+
+Por otro lado, encontramos que las VC Edad(^2) y Sexo sí serían buenos predictores del Nivel de Actitud frente a la C&T. La otra VI, Nivel de religiosidad, así como las otras VC, Nivel de ingresos percibido y Ámbito, no son predictores relevantes del Nivel de Actitud frente a la C&T. Asimismo, el R2 ajustado es bastante limitado, por lo que los Modelos son relativamente pobres para explicar la varianza del Nivel de Actitud frente a la C&T. 
+
+
+#### **Modelos Perú**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE, results='asis'}
+stargazer(MPeru.1,MPeru.2,
+          title = "Resultados de regresión", 
+          no.space = T,
+          style = "default",
+          type="html",
+          column.labels = c("s/ interacciones","c/ interacciones"), 
+          dep.var.labels = "Actitudes frente a la Ciencia y Tecnología", 
+          covariate.labels = c("Religion","Ideología","Postura política", "Primaria", "Secundaria", "Superior", "Posgrado", "Ingresos", "Edad", "Edad2", "Hombre", "Urbano", "Ideología x Primaria", "Ideología x Secundaria", "Ideología x Superior", "Ideología x Posgrado", "Política x Primaria", "Política x Secundaria", "Política x Superior", "Política x Posgrado"),
+          ci.separator = "-",
+          digits = 2,
+          notes.align = "r")
+```
+</div>
+
+
+**Reporte de Modelos** 
+
+En el Modelo 1, encontramos que las VI Nivel de identificación ideológica p < 0.01, y Postura política p < 0.01, tienen una relación altamente significativa con la VD. Tenemos que por cada punto adicional en el Nivel de identificación ideológica, el Nivel de Actitud frente a la C&T aumenta en 0.07 puntos: *entre más liberal es una persona, esta tendrá, en promedio, Actitudes más positivas frente a la C&T*. También tenemos que por cada punto adicional en la escala de Postura política, el Nivel de Actitud frente a la C&T aumenta en 0.3 puntos: *entre más de 'derecha' sea una persona, esta tendrá, en promedio, Actitudes más positivas frente a la C&T*. La significancia estadística de dichas VI y el efecto marginal que tienen respecto del Nivel de Actitud frente a la C&T coinciden con la literatura: las personas más liberales tienden a tener actidudes más positivas frente a la C&T que sus pares conservadores. Sin embargo, contradicen la literatura en que, para Perú, las personas más de 'derecha' tienden a tener actidudes más positivas frente a la C&T que sus pares de izquierda. 
+
+En el Modelo 2, encontramos que la VI Postura política p < 0.05, mantiene una relación  significativa con la VD. Tenemos que por cada punto adicional en la escala de Postura política, el Nivel de Actitud frente a la C&T aumenta en 0.94 puntos, es decir, que el efecto se mantiene: *entre más de 'derecha' sea una persona, esta tendrá, en promedio, Actitudes más positivas frente a la C&T*. No podemos decir lo mismo de la VI Nivel de identificación ideológica.
+
+Respecto a las VC, encontramos que la VC Sexo p < 0.1, tiene una relación significativa con la VD. Encontramos que el hecho de ser *Hombre* aumenta, en promedio, el Nivel de Actitud frente a la C&T en 0.84 puntos para ambos modelos. Esto coincide con la literatura: los hombres tienden a tener actidudes  más positivas frente a la C&T. 
+
+Ambos Modelos tienen el mismo número de observaciones (992), y el mismo R2 ajustado (0.03), por lo que los 2 Modelos explican el 3% de la varianza del Nivel de Actitud frente a la C&T. El ES del Modelo 2 (7.14) es apenas mayor que el del Modelo 1 (7.13). 
+
+**Discusión** 
+
+El hallazgo más relevante de ambos modelos es que la interacción de la VC Nivel educativo alcanzado *mitiga* el efecto que la VI Nivel de identificación ideológica sobre la VD; pero *no* el de la VI Postura política. Esto significa que la relación entre la VI Nivel de identificación ideológica y la VD *depende* del Nivel educativo alcanzado de la persona: el Nivel de identificación ideológica no es, *per se*, determinante del Nivel de Actitud frente a la C&T, sino que el posible efecto que podría tener sobre la VD depende del nivel educativo. Este hallazgo coincide con la literatura: no se trata, entonces, de que los liberales  tengan actitudes más positivas frente a la C&T por el hecho de su identificación ideológica. Lo que econtramos es que el Nivel de identificación ideológica no es, por sí misma, un buen predictor del Nivel de Actitud frente a la C&T si es que consideramos el nivel educativo. Este hallazgo coincide con el caso de EEUU. No obstante, hay dos grandes diferencias para Perú, i) como vimos, en Perú son las personas de 'derecha' las que tienen, en promedio, Actitudes más positivas frente a la C&T. Este hallazgo es particularmente importante si es que tomamos en cuenta que ii), a diferencia de EEUU, la interacción de la VC Nivel educativo alcanzado *no* mitiga totalmente el efecto que la VI Postura política tienen sobre la VD. Esto nos indica que la VI Postura política sí podría ser un buen predictor del Nivel de Actitud frente a la C&T.
+
+
+Por otro lado, encontramos que la VC Sexo sí sería un buen predictor  del Nivel de Actitud frente a la C&T. La otra VI, Nivel de religiosidad, así como las otras VC, Nivel educativo alcanzado, Nivel de ingresos percibido, Edad y Ámbito, no son predictores relevantes del Nivel de Actitud frente a la C&T para el caso peruano. Como sí lo fueron las VC Nivel educativo alcanzado y Edad para EEUU. Por último, hay que resaltar que el R2 ajustado es sumamente  limitado, por lo que los Modelos son pobres para explicar la varianza del Nivel de Actitud frente a la C&T. Este hecho hace que pongamos en duda si las relaciones que hemos encontrado para el Perú son realmente significativas. 
+
+#### **7) Evaluación de los Supuestos BLUE**
+
+**Supuesto 1: Parámetros lineales**
+
+Asumo que el modelo ‘real’ se puede plantear como una función de parámetros lineales. Esto no quiere decir que la relación entras las VI y VC, respecto de la VD, sea lineal.
+
+
+**Supuesto 2: Multicolinealidad**
+
+**Modelo 1 EEUU: Coeficiente VIF**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+summ(MEEUU.1, vifs = TRUE)
+```
+</div>
+
+**Interpretación:** Si analizamos el Coeficiente VIF de las variables del Modelo 1 encontramos que los coeficientes van del 1.02 al 1.41, por lo que no habría correlación entre las variables. Por lo tanto, no tenemos un problema de multicolinealidad. 
+* La única excepción es el efecto cuadrático en la VC Edad, coeficiente > 34, pero es porque son la *misma* variable, así que no tiene relevancia.
+* No analizamos el Coeficiente VIF para el Modelo 2 pues son las mismas variables que en el Modelo 1. Las interacciones lógicamente aumentarán el Coeficiente VIF a > 10. 
+
+**Modelo 1 Perú: Coeficiente VIF**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+summ(MPeru.1, vifs = TRUE)
+```
+</div>
+
+**Interpretación:** Si analizamos el Coeficiente VIF de las variables del Modelo 1 encontramos que los coeficientes van del 1.02 al 1.27, por lo que no habría correlación entre las variables. Por lo tanto, no tenemos un problema de multicolinealidad. 
+* La única excepción es el efecto cuadrático en la VC Edad, coeficiente > 27, pero es porque son la *misma* variable, así que no tiene relevancia.
+* No analizamos el Coeficiente VIF para el Modelo 2 pues son las mismas variables que en el Modelo 1. Las interacciones lógicamente aumentarán el Coeficiente VIF a > 10. 
+
+**Supuesto 3: Muestreo aleatorio**
+
+Este supuesto no depende de nosotros, sino de la aplicación del WVS en ambos países. Asumimos, por lo tanto, que la selección de muestreo del WVS es aleatoria. 
+
+**Supuesto 4: Exogeneidad de las variables**
+
+* **Errores de medición:** No es algo que pueda evitar o resolver, asumimos que la medición de las variables del WVS es adecuada. 
+
+* **Omisión de variables:** Para evitar este error hemos incluido todas las variables que los estudios especializados (en su mayoría en EEUU) utilizan: Nivel de religiosidad, Nivel de identificación ideológico (conservador-liberal), Postura política (derecha-izquierda), Sexo, Edad, Nivel educativo y Nivel de ingresos. Esto puede explicar por qué los modelos para la muestra de EEUU alcanzan un R2 ajustado considerablemente mayor (0.31) que para la muestra de Perú (0.03). Sobre ello, reconozco que el trabajo puede presentar tres posibles limitaciones, i) la teoría sobre el anti-cientificismo en EEUU, que es la que hemos utilizado en el presente trabajo, agrupa el Nivel de identificación ideológico y la Postura política dentro de las categorías de *Republicano*, *Demócrata* e *Independiente* (Blank y Shaw, 2015; Pasek 2017; Motta, 2018; Gauchat, 2012). No obstante, ninguna de las pregunas en el WVS presenta una categorización comparable. Asimismo, realizar el análisis de EEUU desde las categorías de *Republicano*, *Demócrata* e *Independiente* haría sumamente complicada su comparación con el caso de Perú, pues en el Perú no encontramos un sistema de identificación político-partidario siquiera similar al de EEUU; ii) los trabajos sobre anti-cientificismo generalmente inclyen la variable *Raza* o *Etnia* (p. ej. en categorías como *white* y *non-white*, (Motta, 2018; Gauchat, 2012), o *african american* y *hispanic* (Blank y Shaw, 2015)). La variable de *Raza* no ha sido considerada en el trabajo, pues ella depende del módulo de aplicación del WVS en cada país, y en el presente trabajo hemos utilizado la encuesta global en donde no contamos con las *Razas* o *Etnias*; y iii) el R2 ajustado para el Perú es mínimo (0.03), lo que presenta la duda razonable sobre si la propuesta de VI y VC de la teoría norteamericana sea la adecuada para Perú (o América Latina en general). Esto nos conduce a pensar en la posibilidad de que haya variables omitidas para el caso de Perú. 
+
+* **Causalidad inversa:** Hemos tratado de evitar este problema tomando como guía las VI y VC que la literatura especializada utiliza. No consideramos que haya un problema de causalidad reversa como tal en ninguno de los modelos. Si hay vínculos estrechos entre el anti-cientificismo y el Nivel de religiosidad o el Nivel de identificación ideológico estos se enmarcan en la discusión de las Teorías de la Modernización (Inglehart, 2005, 2018; Romero, 2009): la explicación sobre cómo el desarrollo socio-económico (pos)industrialización conduce a una transición de *Traditional values* a *Secular-Rational values* o, como lo reformula Inglehart (2005, 2018), de *Survival values* a *Self-Expression values*. No obstante, la literatura revisada ya ha hecho el trabajo analítico de *desenredar* el efecto de cada variable sobre otra. Bien, reconozco que el trabajo puede presentar una posible limitación, y es que para la construcción del Índice del Nivel de Acitudes frente a la C&T utilicé la variable **Q160.**, '*We depend too much on science and not enough on faith.*'. La formulación de Q160 podría presentar una vinculación con la VI Nivel de religiosidad; sin embargo, intenté mitigar un posible problema de endogeneidad con a) que el Índice del Nivel de Acitudes frente a la C&T esté compuesto por otras 5 variables, y b) complejizar la variable de Nivel de religiosidad de modo que no solo tome en cuenta el nivel de creencia en Dios (Q64), sino también la frecuencia de las prácticas y participación en rituales religiosos (Q171, Q172).
+
+
+**Supuesto 5: Homocedasticidad de residuos**
+
+**Modelo 1 Perú: Gráfico de residuos y test de Breusch Pagan**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MEEUU.1, 1)
+bptest(MEEUU.1)
+```
+</div>
+
+
+**Modelo 2 Perú: Gráfico de residuos y test de Breusch Pagan**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MEEUU.2, 1)
+bptest(MEEUU.2)
+```
+</div>
+
+
+**Interpretación:** En los gráficos de residuos para los Modelos 1 y 2 de EEUU, parece que la varianza de los residuos tiende a ser un poco dispersa, por lo que podría ser que tuvieramos un problema de heterocedasticidad. No obstante, si comprobamos esto con el test de Breusch Pagan, observamos que en ambos Modelos p > 0.05, por lo que tenemos una varianza de residuos que es constante para sendos Modelos. Lo que significa que no hay problemas de heterocedasticidad.
+
+**Modelo 1 EEUU: Gráfico de residuos y test de Breusch Pagan**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MPeru.1, 1)
+bptest(MPeru.1)
+```
+</div>
+
+**Modelo 2 EEUU: Gráfico de residuos y test de Breusch Pagan**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MPeru.2, 1)
+bptest(MPeru.2)
+```
+</div>
+
+
+**Interpretación:** En los gráficos de residuos para los Modelos 1 y 2 de Perú, parece que la varianza de los residuos tiende a ser un poco dispersa, por lo que podría ser que tuvieramos un problema de heterocedasticidad. No obstante, si comprobamos esto con el test de Breusch Pagan, observamos que en ambos Modelos p > 0.05, por lo que tenemos una varianza de residuos que es constante para sendos Modelos. Lo que significa que no hay problemas de heterocedasticidad.
+
+**Normalidad de residuos**
+
+**Modelo 1 EEUU: Normalidad de residuos y test de Kolmogorov-Smirnov**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MEEUU.1, 2)
+ks.test(MEEUU.1$residuals, 'pnorm')
+```
+</div>
+
+**Modelo 2 EEUU: Normalidad de residuos y test de Kolmogorov-Smirnov**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MEEUU.2, 2)
+ks.test(MEEUU.2$residuals, 'pnorm')
+```
+</div>
+
+
+**Interpretación:** En el gráfico de normalidad de residuos del Modelo 1 y 2 en EEUU, parece que los residuos no siguen la línea que indica una distribución normal (los residuos están sumamente dispersos). Si comprobamos ello con el test de Kolmogorov-Smirnov, observamos que p < 0.05, lo que indica que los residuos del Modelo 1 y 2 no siguen una distribución normal, y que están, por el contrario, sesgados a dos colas.
+
+**Modelo 1 Perú: Normalidad de residuos y test de Kolmogorov-Smirnov**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MPeru.1, 2)
+ks.test(MPeru.1$residuals, 'pnorm')
+```
+</div>
+
+**Modelo 2 Perú: Normalidad de residuos y test de Kolmogorov-Smirnov**
+
+<div align="center">
+```{r echo=FALSE, warning=FALSE}
+plot(MPeru.2, 2)
+ks.test(MPeru.2$residuals, 'pnorm')
+```
+</div>
+
+**Interpretación:** En el gráfico de normalidad de residuos del Modelo 1 y 2 en Perú, parece que los residuos no siguen la línea que indica una distribución normal (los residuos están sumamente dispersos). Si comprobamos ello con el test de Kolmogorov-Smirnov, observamos que p < 0.05, lo que indica que los residuos del Modelo 1 y 2 no siguen una distribución normal, y que están, por el contrario, sesgados a dos colas.
+
+
+#### **8) Conclusión**
+
+Ya en la discusión de los Modelos adelanté las comprobaciones (o no) de las Hipótesis planteadas, sobre ello recapitulo: El Nivel de religiosidad, el Nivel de ingresos percibidos, y el Ámbito no son predictores signfificativos del Nivel de Acitudes frente a la C&T en EEUU ni en Perú; por lo que H1, H5 y H8 son falsas. Por el otro lado, encontramos que el Nivel de identificación ideológica, la Postura política y el Sexo sí son predictores signfificativos del Nivel de Acitudes frente a la C&T en EEUU y en Perú; por lo que H2, H3 y H7 son ciertas. Por último, tenemos que el Nivel educativo y la Edad sí son predictores signfificativos del Nivel de Acitudes frente a la C&T en EEUU, pero no para Perú; por lo que H4 y H6 dependen del país. 
+
+Empero, el hallazgo más relevante es que la interacción de la VC Nivel educativo alcanzado *mitiga* el efecto que las VI, Nivel de identificación ideológica y Postura política, tienen sobre la VD; por lo que H9 es verdadera en ambos países y H10 solo en EEUU. Sobre el trabajo realizado rescato 4 conclusiones puntuales, i) que el Nivel educativo alcanzado es una variable determinante para comprender el Nivel de Acitudes frente a la C&T, pues nos hace notar que las VI, Nivel de identificación ideológica y Postura política, no son por sí mismas determinantes del Nivel de Acitudes frente a la C&T, sino que su efecto sobre la VD *depende* del nivel educativo alcanzado. Sin embargo, ii) el Nivel educativo alcanzado no mitiga el efecto que la VI Postura política tiene en el Perú, por lo que habría que profundizar en el motivo de ello; iii) que justamente la VI Postura política, en el Perú, tiene un efecto sobre la VD contrario al que tiene en EEUU: mientras en EEUU las personas que tienen una mayor afinidad con una postura política de derecha presentan actitudes más *negativas* frente a la C&T, en Perú las personas que tienen una mayor afinidad con una postura política de derecha presentan actitudes más *positivas* frente a la C&T. Esta discordancia entre EEUU y Perú nos invita a formular nuevas posiciones teóricas sobre la relación entre la Postura política y las Actitudes frente a la C&T. Por lo menos, nos invita a matizar la capacidad explicativa que las teorías sobre el anti-cientificismo en EEUU (y países pos-industriales) tienen en otras latitudes, como América Latina. Y iv) que la capacidad para explicar la varianza del Nivel de Actitud frente a la C&T en el Perú en los 2 Modelos propuestos es realmente pobre. Por lo que se debería trabajar en propuestas teóricas que expliquen el fenómeno social del anti-cientificismo en el Perú y América Latina en particular. 
+
+#### **Bibliografía utilizada**
+
+Blank, J. M., & Shaw, D. (2015). Does Partisanship Shape Attitudes toward Science and Public Policy? The Case for Ideology and Religion. *The Annals of the American Academy of Political and Social Science*, 658, 18–35. http://www.jstor.org/stable/24541806
+
+Epley, N., & Gilovich, T. (2016). The Mechanics of Motivated Reasoning. *The Journal of Economic Perspectives*, 30(3), 133–140. http://www.jstor.org/stable/43855704
+
+Gauchat, G. (2012). Politicization of Science in the Public Sphere: A Study of Public Trust in the United States, 1974 to 2010. *American Sociological Review*, 77(2), 167–187. http://www.jstor.org/stable/23102567
+
+Hicks, D. J. (2017). Scientific Controversies as Proxy Politics. *Issues in Science and Technology*, 33(2), 67–72. http://www.jstor.org/stable/24891967
+
+Inglehart, R. (2005). *Modernization, Cultural Change, and Democracy The Human Development Sequence (Vol. 25)*. Cambridge University Press.
+
+Inglehart, R. (2018). *Cultural evolution: People's motivations are changing, and reshaping the world*. Cambridge University Press.
+
+Kraft, P. W., Lodge, M., & Taber, C. S. (2015). Why People “Don’t Trust the Evidence”: Motivated Reasoning and Scientific Beliefs. *The Annals of the American Academy of Political and Social Science*, 658, 121–133. http://www.jstor.org/stable/24541811
+
+Kunda Z. The case for motivated reasoning. *Psychol Bull*. 1990 Nov;108(3):480-98. doi: 10.1037/0033-2909.108.3.480. PMID: 2270237.
+
+Motta, M. (2018). The Dynamics and Political Implications of Anti-Intellectualism in the United States. *American Politics Research*, 46(3), 465–498. https://doi.org/10.1177/1532673X17719507
+
+Pasek, J. (2018). It’s not my consensus: Motivated reasoning and the sources of scientific illiteracy. *Public Understanding of Science*, 27(7), 787–806. https://doi.org/10.1177/0963662517733681
+
+Romero, C. (2009). "Cambio social, religión y secularización: Una mirada desde la Encuesta Mundial de Valores". En *Cambios Sociales en el Perú 1968 - 2008. Homenaje a Denis Sulmont*. Lima: PUCP, 347-370. 
