@@ -1,6 +1,4 @@
 ---
-hmtl: "file:///Users/joaquinperezguerra/Desktop/GitHub/Statistics_2_Course_2022/Ass_1.html#(1)"
-
 title:  Estadística para el Análisis Sociológico 2 
 output:
   slidy_presentation: default
