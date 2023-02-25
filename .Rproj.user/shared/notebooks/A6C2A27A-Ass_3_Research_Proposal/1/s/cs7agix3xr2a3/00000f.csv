@@ -1,0 +1,9 @@
+"0",""
+"0","##4) Recodificación de variables"
+"0",""
+"0","#Índice Science and Technology"
+"0","#Q158. Science and technology are making our lives healthier, easier, and more comfortable."
+"0","WVS$Q158 <- as.numeric(recode(WVS$Q158, ""-2""=""NA"", ""-1""=""NA"", ""1""=""1"", ""2""=""2"", ""3""=""3"",""4""=""4"",""5""=""5"",""6""=""6"",""7""=""7"",""8""=""8"",""9""=""9"",""10""=""10""))"
+"2","Error in recode(WVS$Q158, `-2` = ""NA"", `-1` = ""NA"", `1` = ""1"", `2` = ""2"",  : 
+  could not find function ""recode""
+"
